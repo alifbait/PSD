@@ -1,2 +1,7 @@
 ﻿format: jb-book
 root: intro
+chapters:
+- file: md/pertemuan_1
+  title: "Analisis Kualitas Udara Kota Surabaya Menggunakan Data Sentinel-5P"
+- file: md/pertemuan_2
+  title: "Tugas Pertemuan 2: Pengolahan dan Analisis Data Kualitas Udara Surabaya Menggunakan PostgreSQL dan KNIME"

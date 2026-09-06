@@ -1,0 +1,942 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Tugas Pertemuan 2: Pengolahan dan Analisis Data Kualitas Udara Surabaya Menggunakan PostgreSQL dan KNIME &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'md/pertemuan_2';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Analisis Kualitas Udara Kota Surabaya Menggunakan Data Sentinel-5P" href="pertemuan_1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="My sample book - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Mata kuliah Proyek Sains Data
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pertemuan_1.html">Analisis Kualitas Udara Kota Surabaya Menggunakan Data Sentinel-5P</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tugas Pertemuan 2: Pengolahan dan Analisis Data Kualitas Udara Surabaya Menggunakan PostgreSQL dan KNIME</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/alifbait/PSD.git" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/alifbait/PSD.git/issues/new?title=Issue%20on%20page%20%2Fmd/pertemuan_2.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/md/pertemuan_2.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Tugas Pertemuan 2: Pengolahan dan Analisis Data Kualitas Udara Surabaya Menggunakan PostgreSQL dan KNIME</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proses-pengumpulan-data-kedalam-format-csv">Proses pengumpulan data kedalam format .CSV</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#upload-csv-ke-postgresql">Upload CSV ke PostgreSQL</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aiven-io">Aiven.io</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dbeaver">DBEAVER</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#knime">KNIME</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-workflow">HASIL WORKFLOW</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-statistic-view">HASIL STATISTIC VIEW</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-masing-masing-properti">Penjelasan Masing-Masing Properti</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-yang-dihasilkan-dari-setiap-properti">Perhitungan yang Dihasilkan dari Setiap Properti</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kolom-no2">Kolom : NO2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kolom-co">Kolom : CO</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kolom-so2">Kolom : SO2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kolom-o3">Kolom : O3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kolom-hcho">Kolom : HCHO</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="tugas-pertemuan-2-pengolahan-dan-analisis-data-kualitas-udara-surabaya-menggunakan-postgresql-dan-knime">
+<h1>Tugas Pertemuan 2: Pengolahan dan Analisis Data Kualitas Udara Surabaya Menggunakan PostgreSQL dan KNIME<a class="headerlink" href="#tugas-pertemuan-2-pengolahan-dan-analisis-data-kualitas-udara-surabaya-menggunakan-postgresql-dan-knime" title="Link to this heading">#</a></h1>
+<section id="proses-pengumpulan-data-kedalam-format-csv">
+<h2>Proses pengumpulan data kedalam format .CSV<a class="headerlink" href="#proses-pengumpulan-data-kedalam-format-csv" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+
+<span class="n">unsur_polutan</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NO2&quot;</span><span class="p">,</span> <span class="s2">&quot;CO&quot;</span><span class="p">,</span> <span class="s2">&quot;SO2&quot;</span><span class="p">,</span> <span class="s2">&quot;O3&quot;</span><span class="p">,</span> <span class="s2">&quot;HCHO&quot;</span><span class="p">]</span>
+
+<span class="n">list_df</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">polutan</span> <span class="ow">in</span> <span class="n">unsur_polutan</span><span class="p">:</span>
+    <span class="c1"># Membaca file NetCDF</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;kualitas_udara_</span><span class="si">{</span><span class="n">polutan</span><span class="si">}</span><span class="s2">.nc&quot;</span><span class="p">,</span>
+        <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;netcdf4&quot;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Konversi data xarray menjadi DataFrame Pandas</span>
+    <span class="c1"># reset_index() digunakan untuk memunculkan koordinat waktu &#39;t&#39; menjadi kolom</span>
+    <span class="n">df_temp</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">polutan</span><span class="p">]</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+    <span class="c1"># Memfilter hanya mengambil kolom waktu (&#39;t&#39;) dan kolom nilai polutannya</span>
+    <span class="n">df_temp</span> <span class="o">=</span> <span class="n">df_temp</span><span class="p">[[</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="n">polutan</span><span class="p">]]</span>
+
+    <span class="c1"># Mengatur kolom &#39;t&#39; sebagai Index agar penggabungan tabel berpatokan pada tanggal</span>
+    <span class="n">df_temp</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">list_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df_temp</span><span class="p">)</span>
+
+<span class="c1"># Menggabungkan semua tabel polutan berdasarkan tanggal</span>
+<span class="n">df_gabungan</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">list_df</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Mengembalikan index tanggal menjadi kolom biasa dan mengganti namanya</span>
+<span class="n">df_gabungan</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df_gabungan</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="s1">&#39;tanggal&#39;</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="s1">&#39;tanggal&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Format kolom tanggal menjadi YYYY-MM-DD agar mudah dibaca PostgreSQL</span>
+<span class="n">df_gabungan</span><span class="p">[</span><span class="s1">&#39;tanggal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_gabungan</span><span class="p">[</span><span class="s1">&#39;tanggal&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span>
+
+<span class="c1"># Menyimpan hasil ke format CSV</span>
+<span class="n">df_gabungan</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;data_kualitas_udara_surabaya.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="upload-csv-ke-postgresql">
+<h2>Upload CSV ke PostgreSQL<a class="headerlink" href="#upload-csv-ke-postgresql" title="Link to this heading">#</a></h2>
+<section id="aiven-io">
+<h3><a class="reference external" href="http://Aiven.io">Aiven.io</a><a class="headerlink" href="#aiven-io" title="Link to this heading">#</a></h3>
+<p><em>Langkah-langkah yang perlu dilakukan:</em></p>
+<ul class="simple">
+<li><p>Buka <a class="reference external" href="http://Aiven.io">Aiven.io</a>, kemudian lakukan login.</p></li>
+<li><p>Buat project baru dan pilih layanan <strong>PostgreSQL</strong>.</p></li>
+<li><p>Setelah project selesai dibuat, pastikan layanan PostgreSQL berada dalam kondisi <strong>ON</strong>.</p></li>
+<li><p>Klik nama project untuk melihat informasi koneksi database seperti <strong>host, database name, username, password, dan port</strong>.</p></li>
+</ul>
+</section>
+<section id="dbeaver">
+<h3>DBEAVER<a class="headerlink" href="#dbeaver" title="Link to this heading">#</a></h3>
+<p>Pada tahap ini, DBeaver digunakan untuk menghubungkan database PostgreSQL yang berada di <a class="reference external" href="http://Aiven.io">Aiven.io</a>. Setelah koneksi berhasil, file <code class="docutils literal notranslate"><span class="pre">.csv</span></code> yang telah dibuat sebelumnya dapat dimasukkan ke dalam database melalui DBeaver.</p>
+<p><em>Langkah-langkah yang perlu dilakukan:</em></p>
+<ul class="simple">
+<li><p>Buka aplikasi DBeaver.</p></li>
+<li><p>Pilih menu <strong>Database</strong> pada bagian navigasi atas.</p></li>
+<li><p>Klik <strong>New Database Connection</strong>.</p></li>
+<li><p>Pilih PostgreSQL, kemudian masukkan informasi koneksi dari <a class="reference external" href="http://Aiven.io">Aiven.io</a> seperti <strong>hostname, database name, username, dan password</strong>.</p></li>
+<li><p>Klik <strong>Next</strong> dan lanjutkan proses hingga bagian pengaturan tipe data.</p></li>
+<li><p>Periksa kembali tipe data setiap kolom untuk memastikan sudah sesuai dengan data yang akan dimasukkan.</p></li>
+<li><p>Jika tipe data sudah sesuai, klik <strong>Next</strong> atau <strong>Proceed</strong> untuk melanjutkan proses.</p></li>
+</ul>
+</section>
+</section>
+<section id="knime">
+<h2>KNIME<a class="headerlink" href="#knime" title="Link to this heading">#</a></h2>
+<p>Pada tahap ini, data kualitas udara Surabaya yang telah tersimpan di PostgreSQL pada <a class="reference external" href="http://Aiven.io">Aiven.io</a> akan digunakan untuk membuat workflow pada KNIME. Workflow tersebut digunakan untuk mengambil data dari database dan melakukan eksplorasi serta analisis statistik awal.</p>
+<p><em>Langkah-langkah yang perlu dilakukan:</em></p>
+<ul class="simple">
+<li><p>Buka aplikasi <strong>KNIME</strong>.</p></li>
+<li><p>Buat workflow baru dengan memilih <strong>Create New Project</strong> atau menggunakan ikon <strong>+</strong>.</p></li>
+<li><p>Pada menu <strong>Nodes</strong>, cari dan tambahkan <strong>PostgreSQL Connector</strong>.</p></li>
+<li><p>Konfigurasikan <strong>PostgreSQL Connector</strong> menggunakan informasi koneksi database yang terdapat pada <a class="reference external" href="http://Aiven.io">Aiven.io</a>.</p></li>
+<li><p>Tambahkan node <strong>DB Table Selector</strong>, kemudian hubungkan dengan <strong>PostgreSQL Connector</strong>.</p></li>
+<li><p>Pada <strong>DB Table Selector</strong>, pilih schema <strong>public</strong> dan tabel <strong>data_kualitas_udara_surabaya</strong>.</p></li>
+<li><p>Tambahkan node <strong>DB Reader</strong> dan hubungkan dengan <strong>DB Table Selector</strong> untuk membaca data dari database.</p></li>
+<li><p>Tambahkan tiga node untuk proses eksplorasi data, yaitu <strong>Statistics</strong>, <strong>Table View</strong>, dan <strong>Statistics View</strong>.</p></li>
+<li><p>Hubungkan ketiga node tersebut dengan output dari <strong>DB Reader</strong>.</p></li>
+<li><p>Jalankan node <strong>Statistics</strong> untuk memperoleh informasi statistik dari data.</p></li>
+<li><p>Jalankan <strong>Table View</strong> untuk melihat isi dataset dalam bentuk tabel.</p></li>
+<li><p>Jalankan <strong>Statistics View</strong> untuk melihat ringkasan statistik dan informasi data secara lebih lengkap.</p></li>
+</ul>
+<section id="hasil-workflow">
+<h3>HASIL WORKFLOW<a class="headerlink" href="#hasil-workflow" title="Link to this heading">#</a></h3>
+<p>Setelah seluruh node berhasil dikonfigurasi dan dijalankan, diperoleh workflow untuk mengambil data kualitas udara Surabaya dari PostgreSQL pada <a class="reference external" href="http://Aiven.io">Aiven.io</a>. Workflow tersebut terdiri dari <strong>PostgreSQL Connector</strong>, <strong>DB Table Selector</strong>, <strong>DB Reader</strong>, serta tiga node untuk melihat dan menganalisis data, yaitu <strong>Statistics</strong>, <strong>Table View</strong>, dan <strong>Statistics View</strong>.</p>
+<p><img alt="Workflow" src="../_images/4_workflow.png" /></p>
+</section>
+<section id="hasil-statistic-view">
+<h3>HASIL STATISTIC VIEW<a class="headerlink" href="#hasil-statistic-view" title="Link to this heading">#</a></h3>
+<p>Hasil dari proses statistik menampilkan informasi mengenai data lima parameter kualitas udara, yaitu <strong>NO2, CO, SO2, O3, dan HCHO</strong>. Informasi yang ditampilkan meliputi tipe data, jumlah nilai yang hilang, jumlah nilai unik, nilai minimum, nilai maksimum, kuartil, serta nilai rata-rata dari masing-masing parameter.</p>
+<p><img alt="Table View" src="../_images/5_tableview.png" /></p>
+</section>
+</section>
+<section id="penjelasan-masing-masing-properti">
+<h2>Penjelasan Masing-Masing Properti<a class="headerlink" href="#penjelasan-masing-masing-properti" title="Link to this heading">#</a></h2>
+<ul>
+<li><p><strong>Column</strong><br />
+Column merupakan nama fitur, atribut, atau variabel yang terdapat pada dataset dan digunakan dalam proses analisis statistik. Setiap kolom menunjukkan parameter tertentu yang ingin dianalisis. Pada dataset kualitas udara Surabaya, terdapat lima parameter polutan yang dianalisis, yaitu <strong>NO2, CO, SO2, O3, dan HCHO</strong>. Selain itu, dataset juga memiliki kolom <strong>tanggal</strong> yang digunakan sebagai penanda waktu pengamatan.</p>
+<p><strong>Cara Penentuan:</strong> Nama column diperoleh secara langsung dari struktur tabel yang telah dibaca oleh KNIME melalui PostgreSQL. Setiap nama kolom menunjukkan jenis data atau parameter yang terdapat di dalam dataset.</p>
+</li>
+<li><p><strong>Min (Minimum)</strong><br />
+Min atau minimum merupakan nilai paling kecil yang ditemukan pada suatu kolom dari seluruh data yang memiliki nilai valid. Properti ini digunakan untuk mengetahui batas nilai terendah dari masing-masing parameter kualitas udara. Dengan mengetahui nilai minimum, dapat diketahui nilai paling rendah yang tercatat pada periode pengamatan.</p>
+<p>Nilai minimum tidak dihitung menggunakan data yang kosong atau NULL. Oleh karena itu, jumlah data yang digunakan untuk menentukan nilai minimum dapat berbeda antara satu parameter dengan parameter lainnya karena setiap kolom memiliki jumlah data missing yang berbeda.</p>
+<p><strong>Cara Menghitung:</strong> Seluruh data valid pada suatu kolom diperiksa atau diurutkan dari nilai paling kecil hingga nilai paling besar. Nilai yang berada pada posisi paling awal merupakan nilai minimum.</p>
+<div class="math notranslate nohighlight">
+\[Min(X) = \min(X)\]</div>
+</li>
+<li><p><strong>Mean (Rata-rata)</strong><br />
+Mean atau rata-rata merupakan nilai yang menunjukkan rata-rata keseluruhan data valid pada suatu kolom. Properti ini memberikan gambaran umum mengenai nilai suatu parameter kualitas udara selama periode pengamatan. Nilai mean diperoleh dengan menggunakan seluruh data yang memiliki nilai valid pada kolom tersebut.</p>
+<p>Semakin dekat nilai-nilai data dengan mean, maka penyebaran data cenderung lebih terkonsentrasi di sekitar nilai rata-rata. Namun, mean dapat dipengaruhi oleh nilai yang sangat besar atau sangat kecil karena seluruh nilai data ikut diperhitungkan dalam proses penjumlahan.</p>
+<p><strong>Cara Menghitung:</strong> Seluruh nilai data yang valid dijumlahkan, kemudian hasil penjumlahan tersebut dibagi dengan jumlah data valid.</p>
+<div class="math notranslate nohighlight">
+\[\bar{x} = \frac{1}{n}\sum_{i=1}^{n}x_i\]</div>
+<p>Keterangan:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\bar{x}\)</span> = nilai rata-rata</p></li>
+<li><p><span class="math notranslate nohighlight">\(x_i\)</span> = nilai data ke-i</p></li>
+<li><p><span class="math notranslate nohighlight">\(n\)</span> = jumlah data valid</p></li>
+</ul>
+</li>
+<li><p><strong>Median (Nilai Tengah)</strong><br />
+Median merupakan nilai yang berada di tengah setelah seluruh data valid pada suatu kolom diurutkan dari nilai terkecil hingga terbesar. Median digunakan untuk mengetahui posisi tengah dari suatu kumpulan data. Berbeda dengan mean, median relatif lebih tidak terpengaruh oleh nilai yang sangat ekstrem karena hanya mempertimbangkan posisi data setelah diurutkan.</p>
+<p>Median juga berguna ketika suatu dataset memiliki penyebaran nilai yang tidak merata. Dengan membandingkan nilai median dan mean, dapat diperoleh gambaran awal mengenai bentuk distribusi data dan kemungkinan adanya nilai ekstrem.</p>
+<p><strong>Cara Menghitung:</strong> Pertama, seluruh data valid diurutkan dari nilai terkecil hingga terbesar. Jika jumlah data valid adalah ganjil, nilai yang berada tepat di tengah menjadi median. Jika jumlah data valid adalah genap, median diperoleh dari rata-rata dua nilai yang berada di posisi tengah.</p>
+<p>Untuk jumlah data ganjil:</p>
+<div class="math notranslate nohighlight">
+\[Median = x_{\frac{n+1}{2}}\]</div>
+<p>Untuk jumlah data genap:</p>
+<div class="math notranslate nohighlight">
+\[Median = \frac{x_{\frac{n}{2}} + x_{\frac{n}{2}+1}}{2}\]</div>
+</li>
+<li><p><strong>Max (Maksimum)</strong><br />
+Max atau maksimum merupakan nilai paling besar yang terdapat pada suatu kolom dari seluruh data valid. Properti ini digunakan untuk mengetahui nilai tertinggi yang tercatat pada masing-masing parameter kualitas udara selama periode pengamatan.</p>
+<p>Nilai maksimum dapat memberikan informasi mengenai titik pengamatan dengan nilai parameter paling tinggi. Nilai ini juga dapat digunakan sebagai salah satu indikator awal untuk melihat apakah terdapat nilai yang jauh berbeda dibandingkan sebagian besar data lainnya.</p>
+<p><strong>Cara Menghitung:</strong> Seluruh data valid pada suatu kolom diurutkan dari nilai terkecil hingga terbesar. Nilai yang berada pada posisi terakhir atau paling besar merupakan nilai maksimum.</p>
+<div class="math notranslate nohighlight">
+\[Max(X) = \max(X)\]</div>
+</li>
+<li><p><strong>Std. Dev. (Standard Deviation)</strong><br />
+Standard Deviation atau standar deviasi merupakan ukuran yang digunakan untuk mengetahui seberapa besar penyebaran data terhadap nilai rata-ratanya. Properti ini menunjukkan tingkat variasi yang terdapat pada suatu parameter kualitas udara.</p>
+<p>Jika nilai standar deviasi kecil, berarti sebagian besar data cenderung berada di sekitar nilai rata-rata. Sebaliknya, jika nilai standar deviasi semakin besar, berarti data memiliki penyebaran yang lebih luas dan terdapat perbedaan nilai yang lebih besar dari rata-ratanya.</p>
+<p>Dalam analisis ini, standar deviasi digunakan untuk melihat tingkat variasi dari masing-masing parameter polutan seperti NO2, CO, SO2, O3, dan HCHO.</p>
+<p><strong>Cara Menghitung:</strong> Setiap nilai data dikurangi dengan nilai rata-ratanya. Hasil selisih tersebut kemudian dikuadratkan, dijumlahkan, dibagi dengan jumlah data dikurangi satu untuk memperoleh varians sampel, kemudian hasilnya diakarkan.</p>
+<div class="math notranslate nohighlight">
+\[s = \sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{x})^2}\]</div>
+<p>Keterangan:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(s\)</span> = standar deviasi sampel</p></li>
+<li><p><span class="math notranslate nohighlight">\(x_i\)</span> = nilai data ke-i</p></li>
+<li><p><span class="math notranslate nohighlight">\(\bar{x}\)</span> = nilai rata-rata</p></li>
+<li><p><span class="math notranslate nohighlight">\(n\)</span> = jumlah data valid</p></li>
+</ul>
+</li>
+<li><p><strong>Skewness (Kemencengan)</strong><br />
+Skewness atau kemencengan merupakan ukuran statistik yang digunakan untuk mengetahui tingkat ketidaksimetrisan distribusi data. Properti ini menunjukkan apakah distribusi data cenderung memiliki ekor yang lebih panjang ke arah kanan atau ke arah kiri.</p>
+<p>Nilai skewness yang lebih besar dari 0 menunjukkan bahwa distribusi cenderung memiliki ekor yang memanjang ke arah kanan. Nilai skewness yang lebih kecil dari 0 menunjukkan bahwa distribusi cenderung memiliki ekor yang memanjang ke arah kiri. Sementara itu, nilai yang mendekati 0 menunjukkan bahwa distribusi data relatif lebih simetris.</p>
+<p>Skewness dapat membantu dalam memahami pola penyebaran data masing-masing polutan dan mengetahui apakah terdapat kecenderungan nilai tertentu yang lebih dominan dibandingkan nilai lainnya.</p>
+<p><strong>Cara Menghitung:</strong> Skewness dihitung dengan menggunakan deviasi data terhadap nilai rata-rata dalam bentuk pangkat tiga. Nilai tersebut kemudian dibandingkan dengan standar deviasi pangkat tiga.</p>
+<div class="math notranslate nohighlight">
+\[g_1 = \frac{\frac{1}{n}\sum_{i=1}^{n}(x_i-\bar{x})^3}{s^3}\]</div>
+</li>
+<li><p><strong>Kurtosis (Keruncingan)</strong><br />
+Kurtosis atau keruncingan merupakan ukuran statistik yang digunakan untuk mengetahui karakteristik bentuk distribusi data, khususnya tingkat keruncingan bagian puncak dan ketebalan ekor distribusi. Properti ini dapat memberikan gambaran mengenai kemungkinan munculnya nilai yang jauh dari pusat distribusi.</p>
+<p>Nilai kurtosis yang tinggi menunjukkan bahwa distribusi memiliki ekor yang lebih berat dan dapat mengindikasikan adanya lebih banyak nilai ekstrem. Sebaliknya, nilai kurtosis yang rendah atau negatif menunjukkan distribusi yang cenderung lebih datar dibandingkan distribusi normal.</p>
+<p>Pada analisis kualitas udara, kurtosis dapat digunakan untuk melihat apakah nilai suatu parameter polutan memiliki distribusi yang relatif terkonsentrasi atau memiliki kecenderungan munculnya nilai yang jauh dari nilai rata-rata.</p>
+<p><strong>Cara Menghitung:</strong> Kurtosis dihitung menggunakan deviasi data terhadap rata-rata dalam bentuk pangkat empat. Hasilnya dibandingkan dengan standar deviasi pangkat empat dan dikurangi 3 sebagai acuan terhadap distribusi normal.</p>
+<div class="math notranslate nohighlight">
+\[g_2 = \frac{\frac{1}{n}\sum_{i=1}^{n}(x_i-\bar{x})^4}{s^4}-3\]</div>
+</li>
+<li><p><strong>No. Missing</strong><br />
+No. Missing menunjukkan jumlah data yang tidak memiliki nilai atau kosong pada suatu kolom. Data missing dapat berupa nilai NULL atau sel yang tidak memiliki data yang dapat digunakan dalam proses perhitungan statistik.</p>
+<p>Properti ini penting karena jumlah data valid pada setiap parameter dapat berbeda. Pada dataset kualitas udara Surabaya, terdapat beberapa nilai missing pada parameter NO2, CO, SO2, O3, dan HCHO. Oleh karena itu, statistik seperti mean, median, minimum, dan maksimum dihitung berdasarkan jumlah data yang tersedia dan valid pada masing-masing kolom.</p>
+<p><strong>Cara Menghitung:</strong> Sistem memeriksa seluruh baris pada suatu kolom dan menghitung jumlah sel yang kosong atau memiliki nilai NULL. Jumlah tersebut kemudian ditampilkan sebagai nilai No. Missing.</p>
+</li>
+<li><p><strong>No. +Infinity</strong><br />
+No. +Infinity menunjukkan jumlah data yang memiliki nilai tak terhingga positif atau <strong>+∞</strong>. Nilai +∞ berbeda dengan nilai numerik biasa karena nilainya tidak memiliki batas maksimum tertentu.</p>
+<p>Nilai seperti ini dapat muncul pada dataset hasil proses komputasi tertentu, misalnya ketika suatu operasi matematika menghasilkan nilai yang sangat besar atau terjadi pembagian bilangan positif dengan nol. Pemeriksaan properti ini diperlukan untuk memastikan bahwa data tidak mengandung nilai tak terhingga yang dapat mengganggu proses analisis statistik.</p>
+<p><strong>Cara Menghitung:</strong> Sistem memeriksa setiap nilai pada kolom dan menghitung jumlah data yang terdeteksi sebagai nilai +∞.</p>
+</li>
+<li><p><strong>No. -Infinity</strong><br />
+No. -Infinity menunjukkan jumlah data yang memiliki nilai tak terhingga negatif atau <strong>-∞</strong>. Sama seperti +Infinity, nilai -∞ bukan merupakan nilai numerik biasa dan perlu diperiksa sebelum data digunakan untuk analisis lebih lanjut.</p>
+<p>Pemeriksaan ini membantu memastikan bahwa dataset tidak memiliki nilai negatif tak terhingga yang dapat memengaruhi hasil perhitungan statistik seperti mean, standar deviasi, skewness, maupun kurtosis.</p>
+<p><strong>Cara Menghitung:</strong> Sistem memeriksa seluruh nilai pada suatu kolom dan menghitung jumlah data yang terdeteksi memiliki nilai -∞.</p>
+</li>
+<li><p><strong>Histogram</strong><br />
+Histogram merupakan representasi grafik yang digunakan untuk menunjukkan distribusi frekuensi data dalam suatu kolom. Histogram membagi rentang nilai data menjadi beberapa interval atau bin, kemudian menghitung jumlah data yang terdapat pada setiap interval tersebut.</p>
+<p>Dengan histogram, pola penyebaran data dapat diamati secara visual. Grafik ini dapat membantu melihat apakah data cenderung terkonsentrasi pada rentang nilai tertentu, tersebar secara merata, atau memiliki nilai yang jauh berbeda dari sebagian besar data.</p>
+<p>Dalam analisis kualitas udara Surabaya, histogram dapat digunakan untuk melihat pola distribusi masing-masing parameter polutan seperti NO2, CO, SO2, O3, dan HCHO.</p>
+<p><strong>Cara Menghitung:</strong> Rentang nilai dari minimum hingga maksimum dibagi menjadi beberapa interval atau bin. Selanjutnya, jumlah data yang masuk ke dalam setiap interval dihitung dan ditampilkan dalam bentuk batang histogram.</p>
+</li>
+</ul>
+</section>
+<section id="perhitungan-yang-dihasilkan-dari-setiap-properti">
+<h2>Perhitungan yang Dihasilkan dari Setiap Properti<a class="headerlink" href="#perhitungan-yang-dihasilkan-dari-setiap-properti" title="Link to this heading">#</a></h2>
+<section id="kolom-no2">
+<h3>Kolom : NO2<a class="headerlink" href="#kolom-no2" title="Link to this heading">#</a></h3>
+<p><strong>Min:</strong><br />
+Nilai minimum pada kolom NO2 diperoleh dengan memeriksa seluruh data NO2 yang memiliki nilai valid, kemudian mencari nilai yang paling kecil. Berdasarkan hasil yang ditampilkan pada Statistics View, nilai minimum NO2 ditampilkan sebesar 0. Nilai tersebut merupakan nilai terendah dari data NO2 yang dapat digunakan dalam proses analisis.</p>
+<p><strong>Hasil:</strong> 0</p>
+<p><strong>Mean:</strong><br />
+Nilai mean atau rata-rata diperoleh dengan menjumlahkan seluruh nilai NO2 yang valid, kemudian membaginya dengan jumlah data valid. Pada kolom NO2 terdapat <strong>241 data valid</strong>, sedangkan <strong>123 data merupakan missing value</strong> dari total 364 baris. Hasil mean pada Statistics View ditampilkan sebesar 0 karena nilai yang diperoleh sangat kecil dan ditampilkan dalam bentuk pembulatan.</p>
+<p>Secara umum, perhitungan rata-rata dilakukan menggunakan rumus:</p>
+<div class="math notranslate nohighlight">
+\[\bar{x} = \frac{\sum x_i}{n}\]</div>
+<p>dengan <span class="math notranslate nohighlight">\(n\)</span> merupakan jumlah data NO2 yang valid.</p>
+<p><strong>Hasil:</strong> 0</p>
+<p><strong>Median:</strong><br />
+Median diperoleh dengan mengurutkan seluruh 241 data NO2 yang valid dari nilai terkecil hingga terbesar. Karena jumlah data valid adalah <strong>241</strong>, maka jumlah tersebut merupakan bilangan ganjil. Oleh karena itu, nilai median berada pada posisi tengah, yaitu posisi ke-121.</p>
+<div class="math notranslate nohighlight">
+\[\frac{241+1}{2}=121\]</div>
+<p>Berdasarkan hasil Statistics View, nilai median NO2 ditampilkan sebesar 0.</p>
+<p><strong>Hasil:</strong> 0</p>
+<p><strong>Max:</strong><br />
+Nilai maksimum diperoleh dengan mencari nilai NO2 yang paling besar dari seluruh 241 data valid. Setelah data diperiksa dan diurutkan dari nilai terkecil hingga terbesar, nilai yang berada pada posisi terakhir merupakan nilai maksimum. Pada Statistics View, nilai maksimum NO2 ditampilkan sebesar 0.</p>
+<p><strong>Hasil:</strong> 0</p>
+<p><strong>Std. Dev.:</strong><br />
+Standar deviasi digunakan untuk mengetahui seberapa besar penyebaran nilai NO2 terhadap nilai rata-ratanya. Perhitungan dilakukan dengan mencari selisih setiap nilai NO2 terhadap mean, menguadratkan selisih tersebut, menjumlahkannya, kemudian membaginya dengan jumlah data valid dikurangi satu. Hasil akhirnya diperoleh dengan mengambil akar kuadrat.</p>
+<p>Karena nilai NO2 yang ditampilkan pada Statistics View berada pada skala yang sangat kecil dan mengalami pembulatan, nilai standar deviasi perlu mengikuti angka yang ditampilkan secara lengkap pada Statistics View.</p>
+<p><strong>Hasil:</strong> Mengikuti nilai lengkap pada Statistics View.</p>
+<p><strong>Skewness:</strong><br />
+Skewness digunakan untuk mengetahui arah kemiringan distribusi data NO2. Perhitungan dilakukan berdasarkan penyimpangan nilai data terhadap rata-ratanya menggunakan pangkat tiga. Nilai positif menunjukkan kecenderungan ekor distribusi ke kanan, sedangkan nilai negatif menunjukkan kecenderungan ekor ke kiri.</p>
+<p><strong>Hasil:</strong> Mengikuti nilai yang ditampilkan pada Statistics View.</p>
+<p><strong>Kurtosis:</strong><br />
+Kurtosis digunakan untuk mengetahui tingkat keruncingan distribusi data NO2 serta karakteristik ekornya. Perhitungan menggunakan penyimpangan data terhadap rata-rata dalam bentuk pangkat empat.</p>
+<p><strong>Hasil:</strong> Mengikuti nilai yang ditampilkan pada Statistics View.</p>
+<p><strong>No. Missing:</strong><br />
+Pada kolom NO2 terdapat <strong>123 data missing</strong>. Jumlah tersebut diperoleh dengan menghitung seluruh baris yang tidak memiliki nilai NO2 yang dapat digunakan. Dari total <strong>364 baris data</strong>, sebanyak 123 baris tidak memiliki nilai NO2 sehingga tersisa <strong>241 data valid</strong>.</p>
+<p><strong>Hasil:</strong> 123 data missing dan 241 data valid.</p>
+<p><strong>No. +Infinity:</strong><br />
+Pemeriksaan terhadap nilai +Infinity dilakukan untuk mengetahui apakah terdapat nilai tak terhingga positif pada kolom NO2. Berdasarkan hasil Statistics View, tidak terdapat nilai +Infinity.</p>
+<p><strong>Hasil:</strong> 0</p>
+<p><strong>No. -Infinity:</strong><br />
+Pemeriksaan terhadap nilai -Infinity dilakukan untuk mengetahui apakah terdapat nilai tak terhingga negatif pada kolom NO2. Berdasarkan hasil Statistics View, tidak ditemukan nilai -Infinity.</p>
+<p><strong>Hasil:</strong> 0</p>
+</section>
+<section id="kolom-co">
+<h3>Kolom : CO<a class="headerlink" href="#kolom-co" title="Link to this heading">#</a></h3>
+<p><strong>Min:</strong><br />
+Nilai minimum diperoleh dengan memeriksa seluruh <strong>255 data CO yang valid</strong> dan mencari nilai paling kecil. Dari hasil Statistics View, nilai CO terendah yang tercatat adalah <strong>0.021</strong>.</p>
+<p><strong>Hasil:</strong> 0.021</p>
+<p><strong>Mean:</strong><br />
+Mean diperoleh dengan menjumlahkan seluruh 255 nilai CO yang valid kemudian membaginya dengan jumlah data tersebut. Perhitungan rata-rata menggambarkan nilai CO secara umum selama periode pengamatan.</p>
+<div class="math notranslate nohighlight">
+\[\bar{x} = \frac{\sum x_i}{255}\]</div>
+<p>Berdasarkan hasil Statistics View, nilai rata-rata CO adalah <strong>0.029</strong>.</p>
+<p><strong>Hasil:</strong> 0.029</p>
+<p><strong>Median:</strong><br />
+Jumlah data CO yang valid adalah <strong>255</strong>, sehingga jumlah datanya ganjil. Setelah seluruh data CO diurutkan dari nilai terkecil hingga terbesar, median berada pada posisi:</p>
+<div class="math notranslate nohighlight">
+\[\frac{255+1}{2}=128\]</div>
+<p>Artinya, nilai pada urutan ke-128 merupakan nilai tengah dari seluruh data CO yang valid. Berdasarkan Statistics View, nilai median CO adalah <strong>0.029</strong>.</p>
+<p><strong>Hasil:</strong> 0.029</p>
+<p><strong>Max:</strong><br />
+Nilai maksimum diperoleh dengan mengambil nilai CO terbesar dari seluruh 255 data valid. Berdasarkan hasil Statistics View, nilai terbesar yang tercatat adalah <strong>0.042</strong>.</p>
+<p><strong>Hasil:</strong> 0.042</p>
+<p><strong>Std. Dev.:</strong><br />
+Standar deviasi digunakan untuk mengetahui tingkat variasi nilai CO terhadap rata-ratanya. Setiap nilai CO dibandingkan dengan mean 0.029, kemudian selisihnya dikuadratkan dan digunakan dalam perhitungan standar deviasi sampel.</p>
+<p>Karena nilai standar deviasi lengkap tidak terlihat pada ringkasan angka yang tersedia, hasilnya mengikuti nilai yang tercantum pada Statistics View.</p>
+<p><strong>Hasil:</strong> Mengikuti nilai lengkap pada Statistics View.</p>
+<p><strong>Skewness:</strong><br />
+Skewness menunjukkan kecenderungan kemiringan distribusi nilai CO. Nilainya diperoleh dengan menggunakan deviasi pangkat tiga terhadap rata-rata. Hasil ini dapat digunakan untuk mengetahui apakah distribusi CO lebih condong ke kanan, ke kiri, atau relatif simetris.</p>
+<p><strong>Hasil:</strong> Mengikuti nilai yang ditampilkan pada Statistics View.</p>
+<p><strong>Kurtosis:</strong><br />
+Kurtosis menunjukkan karakteristik keruncingan distribusi data CO. Nilai ini dihitung berdasarkan deviasi pangkat empat terhadap nilai rata-rata.</p>
+<p><strong>Hasil:</strong> Mengikuti nilai yang ditampilkan pada Statistics View.</p>
+<p><strong>No. Missing:</strong><br />
+Pada kolom CO terdapat <strong>109 data missing</strong> dari total 364 baris. Dengan demikian, jumlah data CO yang dapat digunakan untuk perhitungan statistik adalah:</p>
+<div class="math notranslate nohighlight">
+\[364-109=255\]</div>
+<p>Jadi terdapat <strong>255 data valid</strong> yang digunakan untuk menghitung Min, Mean, Median, Max, dan statistik lainnya.</p>
+<p><strong>Hasil:</strong> 109 data missing dan 255 data valid.</p>
+<p><strong>No. +Infinity:</strong><br />
+Hasil pemeriksaan menunjukkan bahwa tidak terdapat nilai +Infinity pada kolom CO.</p>
+<p><strong>Hasil:</strong> 0</p>
+<p><strong>No. -Infinity:</strong><br />
+Hasil pemeriksaan menunjukkan bahwa tidak terdapat nilai -Infinity pada kolom CO.</p>
+<p><strong>Hasil:</strong> 0</p>
+</section>
+<section id="kolom-so2">
+<h3>Kolom : SO2<a class="headerlink" href="#kolom-so2" title="Link to this heading">#</a></h3>
+<p><strong>Min:</strong><br />
+Nilai minimum SO2 diperoleh dari nilai terkecil pada seluruh <strong>272 data SO2 yang valid</strong>. Berdasarkan hasil Statistics View, nilai minimum yang ditampilkan adalah <strong>-0.002</strong>.</p>
+<p><strong>Hasil:</strong> -0.002</p>
+<p><strong>Mean:</strong><br />
+Nilai mean diperoleh dengan menjumlahkan seluruh nilai SO2 yang valid kemudian membaginya dengan 272 data valid. Berdasarkan hasil Statistics View, nilai rata-rata SO2 ditampilkan sebesar <strong>0</strong> karena hasilnya mengalami pembulatan pada tampilan.</p>
+<div class="math notranslate nohighlight">
+\[\bar{x} = \frac{\sum x_i}{272}\]</div>
+<p><strong>Hasil:</strong> 0</p>
+<p><strong>Median:</strong><br />
+Jumlah data SO2 yang valid adalah <strong>272</strong>, sehingga jumlah data tersebut merupakan bilangan genap. Oleh karena itu, median diperoleh dari rata-rata dua nilai yang berada pada posisi tengah, yaitu posisi ke-136 dan ke-137.</p>
+<div class="math notranslate nohighlight">
+\[Median = \frac{x_{136}+x_{137}}{2}\]</div>
+<p>Berdasarkan hasil Statistics View, median SO2 ditampilkan sebesar 0.</p>
+<p><strong>Hasil:</strong> 0</p>
+<p><strong>Max:</strong><br />
+Nilai maksimum merupakan nilai SO2 terbesar dari 272 data valid. Berdasarkan hasil Statistics View, nilai maksimum yang tercatat adalah <strong>0.001</strong>.</p>
+<p><strong>Hasil:</strong> 0.001</p>
+<p><strong>Std. Dev.:</strong><br />
+Standar deviasi digunakan untuk mengetahui seberapa besar penyebaran nilai SO2 terhadap rata-ratanya. Perhitungan dilakukan menggunakan seluruh 272 data valid dan rumus standar deviasi sampel.</p>
+<p><strong>Hasil:</strong> Mengikuti nilai lengkap pada Statistics View.</p>
+<p><strong>Skewness:</strong><br />
+Skewness digunakan untuk mengetahui bentuk kemiringan distribusi nilai SO2. Nilai ini dihitung menggunakan deviasi pangkat tiga dari setiap data terhadap rata-ratanya.</p>
+<p><strong>Hasil:</strong> Mengikuti nilai yang ditampilkan pada Statistics View.</p>
+<p><strong>Kurtosis:</strong><br />
+Kurtosis digunakan untuk mengetahui tingkat keruncingan distribusi data SO2 dibandingkan dengan distribusi normal.</p>
+<p><strong>Hasil:</strong> Mengikuti nilai yang ditampilkan pada Statistics View.</p>
+<p><strong>No. Missing:</strong><br />
+Pada kolom SO2 terdapat <strong>92 data missing</strong> dari total 364 baris. Dengan demikian, jumlah data valid yang digunakan dalam proses perhitungan adalah:</p>
+<div class="math notranslate nohighlight">
+\[364-92=272\]</div>
+<p><strong>Hasil:</strong> 92 data missing dan 272 data valid.</p>
+<p><strong>No. +Infinity:</strong><br />
+Tidak ditemukan nilai +Infinity pada data SO2.</p>
+<p><strong>Hasil:</strong> 0</p>
+<p><strong>No. -Infinity:</strong><br />
+Tidak ditemukan nilai -Infinity pada data SO2.</p>
+<p><strong>Hasil:</strong> 0</p>
+</section>
+<section id="kolom-o3">
+<h3>Kolom : O3<a class="headerlink" href="#kolom-o3" title="Link to this heading">#</a></h3>
+<p><strong>Min:</strong><br />
+Nilai minimum O3 diperoleh dari nilai terkecil pada seluruh <strong>361 data O3 yang valid</strong>. Berdasarkan hasil Statistics View, nilai minimum yang tercatat adalah <strong>0.111</strong>.</p>
+<p><strong>Hasil:</strong> 0.111</p>
+<p><strong>Mean:</strong><br />
+Mean O3 dihitung dengan menjumlahkan seluruh nilai O3 yang valid kemudian membaginya dengan jumlah data valid. Pada kolom O3 terdapat 361 data valid.</p>
+<div class="math notranslate nohighlight">
+\[\bar{x} = \frac{\sum x_i}{361}\]</div>
+<p>Berdasarkan hasil Statistics View, nilai rata-rata O3 adalah <strong>0.116</strong>.</p>
+<p><strong>Hasil:</strong> 0.116</p>
+<p><strong>Median:</strong><br />
+Jumlah data O3 yang valid adalah <strong>361</strong>, sehingga jumlahnya ganjil. Posisi median dapat dihitung sebagai berikut:</p>
+<div class="math notranslate nohighlight">
+\[\frac{361+1}{2}=181\]</div>
+<p>Dengan demikian, nilai pada urutan ke-181 setelah data diurutkan merupakan nilai median. Berdasarkan Statistics View, median O3 ditampilkan sebesar <strong>0.116</strong>.</p>
+<p><strong>Hasil:</strong> 0.116</p>
+<p><strong>Max:</strong><br />
+Nilai maksimum diperoleh dengan mencari nilai O3 terbesar dari seluruh 361 data valid. Berdasarkan hasil Statistics View, nilai maksimum O3 adalah <strong>0.123</strong>.</p>
+<p><strong>Hasil:</strong> 0.123</p>
+<p><strong>Std. Dev.:</strong><br />
+Standar deviasi menunjukkan seberapa jauh nilai O3 tersebar dari rata-ratanya. Perhitungannya menggunakan 361 data valid dengan rumus standar deviasi sampel. Nilai yang lebih kecil menunjukkan bahwa data lebih terkonsentrasi di sekitar nilai rata-rata.</p>
+<p><strong>Hasil:</strong> Mengikuti nilai lengkap pada Statistics View.</p>
+<p><strong>Skewness:</strong><br />
+Skewness digunakan untuk melihat kecenderungan kemiringan distribusi nilai O3. Perhitungan didasarkan pada deviasi pangkat tiga setiap nilai terhadap rata-rata.</p>
+<p><strong>Hasil:</strong> Mengikuti nilai yang ditampilkan pada Statistics View.</p>
+<p><strong>Kurtosis:</strong><br />
+Kurtosis digunakan untuk mengetahui tingkat keruncingan distribusi data O3 dan karakteristik ekornya.</p>
+<p><strong>Hasil:</strong> Mengikuti nilai yang ditampilkan pada Statistics View.</p>
+<p><strong>No. Missing:</strong><br />
+Kolom O3 memiliki jumlah missing yang paling sedikit dibandingkan beberapa parameter lainnya. Dari total 364 baris data, terdapat <strong>3 data missing</strong>.</p>
+<p>Jumlah data valid dapat dihitung:</p>
+<div class="math notranslate nohighlight">
+\[364-3=361\]</div>
+<p>Dengan demikian, sebanyak 361 data O3 dapat digunakan dalam proses analisis statistik.</p>
+<p><strong>Hasil:</strong> 3 data missing dan 361 data valid.</p>
+<p><strong>No. +Infinity:</strong><br />
+Tidak terdapat nilai +Infinity pada kolom O3.</p>
+<p><strong>Hasil:</strong> 0</p>
+<p><strong>No. -Infinity:</strong><br />
+Tidak terdapat nilai -Infinity pada kolom O3.</p>
+<p><strong>Hasil:</strong> 0</p>
+</section>
+<section id="kolom-hcho">
+<h3>Kolom : HCHO<a class="headerlink" href="#kolom-hcho" title="Link to this heading">#</a></h3>
+<p><strong>Min:</strong><br />
+Nilai minimum HCHO diperoleh dengan memeriksa seluruh <strong>280 data HCHO yang valid</strong> dan mencari nilai paling kecil. Pada Statistics View, nilai minimum HCHO ditampilkan sebesar 0.</p>
+<p><strong>Hasil:</strong> 0</p>
+<p><strong>Mean:</strong><br />
+Mean HCHO diperoleh dengan menjumlahkan seluruh nilai HCHO valid kemudian membaginya dengan jumlah data valid, yaitu 280 data. Hasil mean ditampilkan sebagai 0 pada Statistics View karena nilai yang diperoleh sangat kecil dan mengalami pembulatan.</p>
+<div class="math notranslate nohighlight">
+\[\bar{x} = \frac{\sum x_i}{280}\]</div>
+<p><strong>Hasil:</strong> 0</p>
+<p><strong>Median:</strong><br />
+Jumlah data HCHO yang valid adalah <strong>280</strong>, sehingga jumlah data tersebut genap. Median diperoleh dengan mengambil dua nilai yang berada di tengah, yaitu posisi ke-140 dan ke-141, kemudian menghitung rata-ratanya.</p>
+<div class="math notranslate nohighlight">
+\[Median = \frac{x_{140}+x_{141}}{2}\]</div>
+<p>Berdasarkan hasil Statistics View, nilai median HCHO ditampilkan sebesar 0.</p>
+<p><strong>Hasil:</strong> 0</p>
+<p><strong>Max:</strong><br />
+Nilai maksimum HCHO diperoleh dengan mencari nilai terbesar dari seluruh 280 data valid. Berdasarkan Statistics View, nilai maksimum HCHO adalah <strong>0.001</strong>.</p>
+<p><strong>Hasil:</strong> 0.001</p>
+<p><strong>Std. Dev.:</strong><br />
+Standar deviasi digunakan untuk mengetahui tingkat penyebaran nilai HCHO terhadap nilai rata-ratanya. Perhitungan dilakukan dengan menggunakan selisih setiap data terhadap mean, kemudian menerapkan rumus standar deviasi sampel.</p>
+<p><strong>Hasil:</strong> Mengikuti nilai lengkap pada Statistics View.</p>
+<p><strong>Skewness:</strong><br />
+Skewness digunakan untuk mengetahui arah kemiringan distribusi nilai HCHO. Nilai ini diperoleh berdasarkan deviasi pangkat tiga setiap data terhadap rata-ratanya.</p>
+<p><strong>Hasil:</strong> Mengikuti nilai yang ditampilkan pada Statistics View.</p>
+<p><strong>Kurtosis:</strong><br />
+Kurtosis digunakan untuk mengetahui tingkat keruncingan distribusi nilai HCHO. Perhitungan dilakukan berdasarkan deviasi pangkat empat dari data terhadap nilai rata-ratanya.</p>
+<p><strong>Hasil:</strong> Mengikuti nilai yang ditampilkan pada Statistics View.</p>
+<p><strong>No. Missing:</strong><br />
+Pada kolom HCHO terdapat <strong>84 data missing</strong> dari total 364 baris. Jumlah data valid dapat dihitung dengan:</p>
+<div class="math notranslate nohighlight">
+\[364-84=280\]</div>
+<p>Dengan demikian, terdapat 280 data HCHO yang dapat digunakan untuk proses perhitungan statistik.</p>
+<p><strong>Hasil:</strong> 84 data missing dan 280 data valid.</p>
+<p><strong>No. +Infinity:</strong><br />
+Tidak ditemukan nilai +Infinity pada kolom HCHO.</p>
+<p><strong>Hasil:</strong> 0</p>
+<p><strong>No. -Infinity:</strong><br />
+Tidak ditemukan nilai -Infinity pada kolom HCHO.</p>
+<p><strong>Hasil:</strong> 0</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./md"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="pertemuan_1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Analisis Kualitas Udara Kota Surabaya Menggunakan Data Sentinel-5P</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proses-pengumpulan-data-kedalam-format-csv">Proses pengumpulan data kedalam format .CSV</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#upload-csv-ke-postgresql">Upload CSV ke PostgreSQL</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aiven-io">Aiven.io</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dbeaver">DBEAVER</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#knime">KNIME</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-workflow">HASIL WORKFLOW</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-statistic-view">HASIL STATISTIC VIEW</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-masing-masing-properti">Penjelasan Masing-Masing Properti</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-yang-dihasilkan-dari-setiap-properti">Perhitungan yang Dihasilkan dari Setiap Properti</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kolom-no2">Kolom : NO2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kolom-co">Kolom : CO</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kolom-so2">Kolom : SO2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kolom-o3">Kolom : O3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kolom-hcho">Kolom : HCHO</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roti18
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
