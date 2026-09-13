@@ -1,0 +1,3437 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Analisis Time Series Karbon Monoksida (CO) Tingkat Kecamatan di Kota Surabaya Menggunakan TSFEL &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'md/pertemuan_3';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Tugas Pertemuan 2: Pengolahan dan Analisis Data Kualitas Udara Surabaya Menggunakan PostgreSQL dan KNIME" href="pertemuan_2.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="My sample book - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Mata kuliah Proyek Sains Data
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pertemuan_1.html">Analisis Kualitas Udara Kota Surabaya Menggunakan Data Sentinel-5P</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pertemuan_2.html">Tugas Pertemuan 2: Pengolahan dan Analisis Data Kualitas Udara Surabaya Menggunakan PostgreSQL dan KNIME</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Analisis Time Series Karbon Monoksida (CO) Tingkat Kecamatan di Kota Surabaya Menggunakan TSFEL</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/alifbait/PSD.git" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/alifbait/PSD.git/issues/new?title=Issue%20on%20page%20%2Fmd/pertemuan_3.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/md/pertemuan_3.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Analisis Time Series Karbon Monoksida (CO) Tingkat Kecamatan di Kota Surabaya Menggunakan TSFEL</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contents">Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#business-understanding">1. Business Understanding</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#latar-belakang">Latar Belakang</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan">Tujuan</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding">2. Data Understanding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-area-of-interest-aoi-tingkat-kecamatan">3. Menentukan Area of Interest (AOI) Tingkat Kecamatan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pengambilan-data-karbon-monoksida-co">4. Pengambilan Data Karbon Monoksida (CO)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data">5. Eksplorasi Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preprocessing">6. Data Preprocessing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-value-dan-imputation">6.1 Missing Value dan Imputation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#identifikasi-outlier">6.2 Identifikasi Outlier</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perbaikan-outlier">6.3 Perbaikan Outlier</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-fitur-menggunakan-tsfel">7. Ekstraksi Fitur Menggunakan TSFEL</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#persiapan-dan-konfigurasi-ekstraksi-fitur">7.1 Persiapan dan Konfigurasi Ekstraksi Fitur</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-dan-penyimpanan-hasil">7.2 Ekstraksi dan Penyimpanan Hasil</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-fitur-tsfel">8. Analisis Fitur TSFEL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-kemiripan-co-dan-co2">9. Analisis Kemiripan CO dan CO₂</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penyelarasan-data-co-dan-co2">9.1 Penyelarasan Data CO dan CO₂</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-68-fitur-tsfel">9.2 Ekstraksi 68 Fitur TSFEL</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pemeriksaan-output-fitur">9.3 Pemeriksaan Output Fitur</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perbandingan-output-fitur-co-dan-co2">9.4 Perbandingan Output Fitur CO dan CO₂</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cosine-similarity">9.5 Cosine Similarity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#korelasi-pearson">9.6 Korelasi Pearson</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan-analisis-kemiripan">9.7 Kesimpulan Analisis Kemiripan</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan">10. Kesimpulan</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="analisis-time-series-karbon-monoksida-co-tingkat-kecamatan-di-kota-surabaya-menggunakan-tsfel">
+<h1>Analisis Time Series Karbon Monoksida (CO) Tingkat Kecamatan di Kota Surabaya Menggunakan TSFEL<a class="headerlink" href="#analisis-time-series-karbon-monoksida-co-tingkat-kecamatan-di-kota-surabaya-menggunakan-tsfel" title="Link to this heading">#</a></h1>
+<section id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Business Understanding</p></li>
+<li><p>Data Understanding</p></li>
+<li><p>Menentukan Area of Interest (AOI) Tingkat Kecamatan</p></li>
+<li><p>Pengambilan Data CO</p></li>
+<li><p>Eksplorasi Data</p></li>
+<li><p>Data Preprocessing</p>
+<ul class="simple">
+<li><p>Missing Value</p></li>
+<li><p>Imputation</p></li>
+<li><p>Identifikasi Outlier</p></li>
+<li><p>Perbaikan Outlier</p></li>
+</ul>
+</li>
+<li><p>Ekstraksi Fitur Menggunakan TSFEL</p></li>
+<li><p>Analisis 68 Fitur</p></li>
+<li><p>Analisis Kemiripan CO dan CO₂</p></li>
+<li><p>Kesimpulan</p></li>
+</ol>
+</section>
+<section id="business-understanding">
+<h2>1. Business Understanding<a class="headerlink" href="#business-understanding" title="Link to this heading">#</a></h2>
+<section id="latar-belakang">
+<h3>Latar Belakang<a class="headerlink" href="#latar-belakang" title="Link to this heading">#</a></h3>
+<p>Kualitas udara merupakan salah satu aspek penting dalam lingkungan perkotaan. Salah satu polutan yang dapat digunakan untuk mengamati kondisi kualitas udara adalah Karbon Monoksida (CO), yaitu gas yang dihasilkan dari proses pembakaran tidak sempurna.</p>
+<p>Pada analisis ini, data CO di wilayah Kota Surabaya akan dianalisis dengan lingkup wilayah yang lebih kecil, yaitu tingkat kecamatan. Data CO selama 365 hari akan melalui proses preprocessing dan selanjutnya digunakan untuk ekstraksi fitur menggunakan Time Series Feature Extraction Library (TSFEL).</p>
+</section>
+<section id="tujuan">
+<h3>Tujuan<a class="headerlink" href="#tujuan" title="Link to this heading">#</a></h3>
+<p>Analisis ini bertujuan untuk:</p>
+<ol class="arabic simple">
+<li><p>Mengolah data CO pada tingkat kecamatan di Kota Surabaya selama 365 hari.</p></li>
+<li><p>Menangani missing value menggunakan teknik imputation.</p></li>
+<li><p>Mengidentifikasi dan memperbaiki outlier.</p></li>
+<li><p>Mengekstraksi fitur time series menggunakan TSFEL.</p></li>
+<li><p>Memahami fitur-fitur yang dihasilkan oleh TSFEL.</p></li>
+</ol>
+</section>
+</section>
+<section id="data-understanding">
+<h2>2. Data Understanding<a class="headerlink" href="#data-understanding" title="Link to this heading">#</a></h2>
+<p>Data yang digunakan berasal dari satelit Sentinel-5P melalui layanan openEO pada Copernicus Data Space Ecosystem. Data mencakup wilayah Kota Surabaya, Jawa Timur, dengan periode pengamatan 24 Agustus 2025 sampai 24 Agustus 2026.</p>
+<p>Pada tugas ini, analisis difokuskan pada polutan Karbon Monoksida (CO) dengan lingkup wilayah tingkat kecamatan. Data CO akan diagregasi menjadi data harian dan ditargetkan sebanyak 365 hari untuk selanjutnya digunakan dalam proses preprocessing dan ekstraksi fitur menggunakan TSFEL.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">openeo</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Library openEO berhasil diimpor.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Library openEO berhasil diimpor.
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">connection</span> <span class="o">=</span> <span class="n">openeo</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+    <span class="s2">&quot;https://openeo.dataspace.copernicus.eu&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">authenticate_oidc</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Berhasil terhubung ke Copernicus Data Space.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Authenticated using refresh token.
+Berhasil terhubung ke Copernicus Data Space.
+</pre></div>
+</div>
+</section>
+<section id="menentukan-area-of-interest-aoi-tingkat-kecamatan">
+<h2>3. Menentukan Area of Interest (AOI) Tingkat Kecamatan<a class="headerlink" href="#menentukan-area-of-interest-aoi-tingkat-kecamatan" title="Link to this heading">#</a></h2>
+<p>Batas wilayah kecamatan diperoleh dari dataset Peta Batas Administrasi Kecamatan Tahun 2026 yang disediakan oleh Pemerintah Kota Surabaya. Dataset tersebut berisi 31 wilayah kecamatan dalam format Shapefile (SHP).</p>
+<p>Pada analisis ini digunakan Kecamatan Gubeng sebagai Area of Interest (AOI). Batas administrasi kecamatan digunakan sebagai wilayah spasial dalam proses pengambilan data Karbon Monoksida (CO) dari Sentinel-5P.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+
+<span class="n">gdf_kecamatan</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s2">&quot;C:\Users\Alif\ProyekSainsData\data\raw\11032026_batas_kec\11032026_BATAS_KEC.shp&quot;</span>
+<span class="p">)</span>
+
+<span class="n">gdf_kecamatan</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</pre></div>
+</div>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>OBJECTID_1</th>
+      <th>OBJECTID</th>
+      <th>K</th>
+      <th>KODE</th>
+      <th>LUAS_KM</th>
+      <th>LUAS_HA</th>
+      <th>Keterangan</th>
+      <th>Shape_Leng</th>
+      <th>Shape_Le_1</th>
+      <th>Shape_Area</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>1</td>
+      <td>BULAK</td>
+      <td>35.78.29</td>
+      <td>6.23632996142359</td>
+      <td>623.632996142359</td>
+      <td>Peraturan Walikota Surabaya Nomor 26 Tahun 2023</td>
+      <td>27611.996624</td>
+      <td>27611.996497</td>
+      <td>6.645735e+06</td>
+      <td>POLYGON ((696580.441 9202784.509, 696580.458 9...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>2</td>
+      <td>WONOKROMO</td>
+      <td>35.78.04</td>
+      <td>8.27681200407028</td>
+      <td>827.681200407028</td>
+      <td>Peraturan Walikota Surabaya Nomor 63 Tahun 2022</td>
+      <td>19434.690895</td>
+      <td>19434.690730</td>
+      <td>8.276812e+06</td>
+      <td>POLYGON ((692927.102 9193805.435, 692915.698 9...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>3</td>
+      <td>TAMBAKSARI</td>
+      <td>35.78.10</td>
+      <td>8.96572590847566</td>
+      <td>896.572590847566</td>
+      <td>Peraturan Walikota Surabaya Nomor 63 Tahun 2022</td>
+      <td>18585.703899</td>
+      <td>18585.703957</td>
+      <td>8.965726e+06</td>
+      <td>POLYGON ((696506.404 9200045.4, 696503.878 920...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>4</td>
+      <td>GENTENG</td>
+      <td>35.78.07</td>
+      <td>4.09193344170742</td>
+      <td>409.193344170742</td>
+      <td>Peraturan Walikota Surabaya Nomor 63 Tahun 2022</td>
+      <td>12597.494711</td>
+      <td>12597.494563</td>
+      <td>4.091933e+06</td>
+      <td>POLYGON ((693581.28 9198457.402, 693579.957 91...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>5</td>
+      <td>BUBUTAN</td>
+      <td>35.78.13</td>
+      <td>3.90599212881899</td>
+      <td>390.599212881899</td>
+      <td>Peraturan Walikota Surabaya Nomor 63 Tahun 2022</td>
+      <td>9893.936576</td>
+      <td>9893.936447</td>
+      <td>3.905992e+06</td>
+      <td>POLYGON ((691947.224 9198786.6, 691974.783 919...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">aoi_gubeng</span> <span class="o">=</span> <span class="n">gdf_kecamatan</span><span class="p">[</span>
+    <span class="n">gdf_kecamatan</span><span class="p">[</span><span class="s2">&quot;K&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;GUBENG&quot;</span>
+<span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">aoi_gubeng</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</pre></div>
+</div>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>OBJECTID_1</th>
+      <th>OBJECTID</th>
+      <th>K</th>
+      <th>KODE</th>
+      <th>LUAS_KM</th>
+      <th>LUAS_HA</th>
+      <th>Keterangan</th>
+      <th>Shape_Leng</th>
+      <th>Shape_Le_1</th>
+      <th>Shape_Area</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>6</td>
+      <td>GUBENG</td>
+      <td>35.78.08</td>
+      <td>7.92909241371792</td>
+      <td>792.909241371792</td>
+      <td>Peraturan Walikota Surabaya Nomor 63 Tahun 2022</td>
+      <td>17655.597655</td>
+      <td>17655.597549</td>
+      <td>7.929092e+06</td>
+      <td>POLYGON ((694814.169 9196813.503, 694814.429 9...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">aoi_gubeng</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+    <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Area of Interest (AOI) Kecamatan Gubeng&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Y&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="png" src="../_images/6_output_9_0.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">aoi_wgs84</span> <span class="o">=</span> <span class="n">aoi_gubeng</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
+
+<span class="n">aoi</span> <span class="o">=</span> <span class="n">aoi_wgs84</span><span class="o">.</span><span class="n">__geo_interface__</span>
+</pre></div>
+</div>
+</section>
+<section id="pengambilan-data-karbon-monoksida-co">
+<h2>4. Pengambilan Data Karbon Monoksida (CO)<a class="headerlink" href="#pengambilan-data-karbon-monoksida-co" title="Link to this heading">#</a></h2>
+<p>Data Karbon Monoksida (CO) diambil dari koleksi Sentinel-5P L2 menggunakan layanan openEO pada Copernicus Data Space Ecosystem. Periode pengambilan data ditetapkan dari 24 Agustus 2025 sampai 24 Agustus 2026.</p>
+<p>Data CO kemudian diagregasi berdasarkan waktu menjadi data harian dan berdasarkan wilayah menggunakan Area of Interest (AOI) Kecamatan Gubeng.</p>
+<p>Hasil pengambilan data menunjukkan bahwa tidak seluruh hari dalam periode tersebut memiliki observasi. Data yang tersedia berjumlah 197 hari, dengan observasi terakhir tersedia pada 22 Agustus 2026. Untuk keperluan analisis time series selama 365 hari, rentang tanggal lengkap kemudian dibentuk dan tanggal yang tidak memiliki observasi ditandai sebagai missing value sebelum dilakukan tahap preprocessing.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">polutan</span> <span class="o">=</span> <span class="s2">&quot;CO&quot;</span>
+
+<span class="n">temporal_extent</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;2025-08-24&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2026-08-24&quot;</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">datacube_co</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">load_collection</span><span class="p">(</span>
+    <span class="s2">&quot;SENTINEL_5P_L2&quot;</span><span class="p">,</span>
+    <span class="n">temporal_extent</span><span class="o">=</span><span class="n">temporal_extent</span><span class="p">,</span>
+    <span class="n">spatial_extent</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;west&quot;</span><span class="p">:</span> <span class="n">aoi_wgs84</span><span class="o">.</span><span class="n">total_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="s2">&quot;south&quot;</span><span class="p">:</span> <span class="n">aoi_wgs84</span><span class="o">.</span><span class="n">total_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="s2">&quot;east&quot;</span><span class="p">:</span> <span class="n">aoi_wgs84</span><span class="o">.</span><span class="n">total_bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="s2">&quot;north&quot;</span><span class="p">:</span> <span class="n">aoi_wgs84</span><span class="o">.</span><span class="n">total_bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="n">polutan</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">datacube_co</span> <span class="o">=</span> <span class="n">datacube_co</span><span class="o">.</span><span class="n">aggregate_temporal_period</span><span class="p">(</span>
+    <span class="n">reducer</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span>
+    <span class="n">period</span><span class="o">=</span><span class="s2">&quot;day&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">datacube_co</span> <span class="o">=</span> <span class="n">datacube_co</span><span class="o">.</span><span class="n">aggregate_spatial</span><span class="p">(</span>
+    <span class="n">reducer</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span>
+    <span class="n">geometries</span><span class="o">=</span><span class="n">aoi</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">output_file</span> <span class="o">=</span> <span class="s2">&quot;kualitas_udara_CO_Gubeng.nc&quot;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mengeksekusi unduhan data CO...&quot;</span><span class="p">)</span>
+
+<span class="n">datacube_co</span><span class="o">.</span><span class="n">execute_batch</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Analisis CO Kecamatan Gubeng&quot;</span><span class="p">,</span>
+    <span class="n">outputfile</span><span class="o">=</span><span class="n">output_file</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data CO berhasil disimpan sebagai </span><span class="si">{</span><span class="n">output_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Mengeksekusi unduhan data CO...
+0:00:00 Job &#39;j-26091305592545cc8b39d0511df58494&#39;: send &#39;start&#39;
+0:00:03 Job &#39;j-26091305592545cc8b39d0511df58494&#39;: queued (progress 0%)
+0:00:09 Job &#39;j-26091305592545cc8b39d0511df58494&#39;: queued (progress 0%)
+0:00:15 Job &#39;j-26091305592545cc8b39d0511df58494&#39;: queued (progress 0%)
+0:00:24 Job &#39;j-26091305592545cc8b39d0511df58494&#39;: queued (progress 0%)
+0:00:35 Job &#39;j-26091305592545cc8b39d0511df58494&#39;: queued (progress 0%)
+0:00:47 Job &#39;j-26091305592545cc8b39d0511df58494&#39;: running (progress N/A)
+0:01:03 Job &#39;j-26091305592545cc8b39d0511df58494&#39;: running (progress N/A)
+0:01:23 Job &#39;j-26091305592545cc8b39d0511df58494&#39;: running (progress N/A)
+0:01:47 Job &#39;j-26091305592545cc8b39d0511df58494&#39;: running (progress N/A)
+0:02:18 Job &#39;j-26091305592545cc8b39d0511df58494&#39;: running (progress N/A)
+0:02:55 Job &#39;j-26091305592545cc8b39d0511df58494&#39;: running (progress N/A)
+0:03:43 Job &#39;j-26091305592545cc8b39d0511df58494&#39;: finished (progress 100%)
+Data CO berhasil disimpan sebagai kualitas_udara_CO_Gubeng.nc
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># Membaca hasil ekstraksi data CO</span>
+<span class="n">ds_co</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span>
+    <span class="s2">&quot;ProyekSainsData/data/raw/kualitas_udara_CO_Gubeng.nc&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Menampilkan struktur dataset hasil ekstraksi</span>
+<span class="n">ds_co</span>
+</pre></div>
+</div>
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+<p>:root {
+–xr-font-color0: var(–jp-content-font-color0, rgba(0, 0, 0, 1));
+–xr-font-color2: var(–jp-content-font-color2, rgba(0, 0, 0, 0.54));
+–xr-font-color3: var(–jp-content-font-color3, rgba(0, 0, 0, 0.38));
+–xr-border-color: var(–jp-border-color2, #e0e0e0);
+–xr-disabled-color: var(–jp-layout-color3, #bdbdbd);
+–xr-background-color: var(–jp-layout-color0, white);
+–xr-background-color-row-even: var(–jp-layout-color1, white);
+–xr-background-color-row-odd: var(–jp-layout-color2, #eeeeee);
+}</p>
+<p>html[theme=”dark”],
+html[data-theme=”dark”],
+body[data-theme=”dark”],
+body.vscode-dark {
+–xr-font-color0: rgba(255, 255, 255, 1);
+–xr-font-color2: rgba(255, 255, 255, 0.54);
+–xr-font-color3: rgba(255, 255, 255, 0.38);
+–xr-border-color: #1f1f1f;
+–xr-disabled-color: #515151;
+–xr-background-color: #111111;
+–xr-background-color-row-even: #111111;
+–xr-background-color-row-odd: #313131;
+}</p>
+<p>.xr-wrap {
+display: block !important;
+min-width: 300px;
+max-width: 700px;
+}</p>
+<p>.xr-text-repr-fallback {
+/* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+display: none;
+}</p>
+<p>.xr-header {
+padding-top: 6px;
+padding-bottom: 6px;
+margin-bottom: 4px;
+border-bottom: solid 1px var(–xr-border-color);
+}</p>
+<p>.xr-header &gt; div,
+.xr-header &gt; ul {
+display: inline;
+margin-top: 0;
+margin-bottom: 0;
+}</p>
+<p>.xr-obj-type,
+.xr-array-name {
+margin-left: 2px;
+margin-right: 10px;
+}</p>
+<p>.xr-obj-type {
+color: var(–xr-font-color2);
+}</p>
+<p>.xr-sections {
+padding-left: 0 !important;
+display: grid;
+grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+}</p>
+<p>.xr-section-item {
+display: contents;
+}</p>
+<p>.xr-section-item input {
+display: inline-block;
+opacity: 0;
+height: 0;
+}</p>
+<p>.xr-section-item input + label {
+color: var(–xr-disabled-color);
+}</p>
+<p>.xr-section-item input:enabled + label {
+cursor: pointer;
+color: var(–xr-font-color2);
+}</p>
+<p>.xr-section-item input:focus + label {
+border: 2px solid var(–xr-font-color0);
+}</p>
+<p>.xr-section-item input:enabled + label:hover {
+color: var(–xr-font-color0);
+}</p>
+<p>.xr-section-summary {
+grid-column: 1;
+color: var(–xr-font-color2);
+font-weight: 500;
+}</p>
+<p>.xr-section-summary &gt; span {
+display: inline-block;
+padding-left: 0.5em;
+}</p>
+<p>.xr-section-summary-in:disabled + label {
+color: var(–xr-font-color2);
+}</p>
+<p>.xr-section-summary-in + label:before {
+display: inline-block;
+content: “►”;
+font-size: 11px;
+width: 15px;
+text-align: center;
+}</p>
+<p>.xr-section-summary-in:disabled + label:before {
+color: var(–xr-disabled-color);
+}</p>
+<p>.xr-section-summary-in:checked + label:before {
+content: “▼”;
+}</p>
+<p>.xr-section-summary-in:checked + label &gt; span {
+display: none;
+}</p>
+<p>.xr-section-summary,
+.xr-section-inline-details {
+padding-top: 4px;
+padding-bottom: 4px;
+}</p>
+<p>.xr-section-inline-details {
+grid-column: 2 / -1;
+}</p>
+<p>.xr-section-details {
+display: none;
+grid-column: 1 / -1;
+margin-bottom: 5px;
+}</p>
+<p>.xr-section-summary-in:checked ~ .xr-section-details {
+display: contents;
+}</p>
+<p>.xr-array-wrap {
+grid-column: 1 / -1;
+display: grid;
+grid-template-columns: 20px auto;
+}</p>
+<p>.xr-array-wrap &gt; label {
+grid-column: 1;
+vertical-align: top;
+}</p>
+<p>.xr-preview {
+color: var(–xr-font-color3);
+}</p>
+<p>.xr-array-preview,
+.xr-array-data {
+padding: 0 5px !important;
+grid-column: 2;
+}</p>
+<p>.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+display: none;
+}</p>
+<p>.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+display: inline-block;
+}</p>
+<p>.xr-dim-list {
+display: inline-block !important;
+list-style: none;
+padding: 0 !important;
+margin: 0;
+}</p>
+<p>.xr-dim-list li {
+display: inline-block;
+padding: 0;
+margin: 0;
+}</p>
+<p>.xr-dim-list:before {
+content: “(“;
+}</p>
+<p>.xr-dim-list:after {
+content: “)”;
+}</p>
+<p>.xr-dim-list li:not(:last-child):after {
+content: “,”;
+padding-right: 5px;
+}</p>
+<p>.xr-has-index {
+font-weight: bold;
+}</p>
+<p>.xr-var-list,
+.xr-var-item {
+display: contents;
+}</p>
+<p>.xr-var-item &gt; div,
+.xr-var-item label,
+.xr-var-item &gt; .xr-var-name span {
+background-color: var(–xr-background-color-row-even);
+margin-bottom: 0;
+}</p>
+<p>.xr-var-item &gt; .xr-var-name:hover span {
+padding-right: 5px;
+}</p>
+<p>.xr-var-list &gt; li:nth-child(odd) &gt; div,
+.xr-var-list &gt; li:nth-child(odd) &gt; label,
+.xr-var-list &gt; li:nth-child(odd) &gt; .xr-var-name span {
+background-color: var(–xr-background-color-row-odd);
+}</p>
+<p>.xr-var-name {
+grid-column: 1;
+}</p>
+<p>.xr-var-dims {
+grid-column: 2;
+}</p>
+<p>.xr-var-dtype {
+grid-column: 3;
+text-align: right;
+color: var(–xr-font-color2);
+}</p>
+<p>.xr-var-preview {
+grid-column: 4;
+}</p>
+<p>.xr-index-preview {
+grid-column: 2 / 5;
+color: var(–xr-font-color2);
+}</p>
+<p>.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+padding-right: 10px;
+}</p>
+<p>.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+overflow: visible;
+width: auto;
+z-index: 1;
+}</p>
+<p>.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+display: none;
+background-color: var(–xr-background-color) !important;
+padding-bottom: 5px !important;
+}</p>
+<p>.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+display: block;
+}</p>
+<p>.xr-var-data &gt; table {
+float: right;
+}</p>
+<p>.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+padding-left: 25px !important;
+}</p>
+<p>.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+grid-column: 1 / -1;
+}</p>
+<p>dl.xr-attrs {
+padding: 0;
+margin: 0;
+display: grid;
+grid-template-columns: 125px auto;
+}</p>
+<p>.xr-attrs dt,
+.xr-attrs dd {
+padding: 0;
+margin: 0;
+float: left;
+padding-right: 10px;
+width: auto;
+}</p>
+<p>.xr-attrs dt {
+font-weight: normal;
+grid-column: 1;
+}</p>
+<p>.xr-attrs dt:hover span {
+display: inline-block;
+background: var(–xr-background-color);
+padding-right: 10px;
+}</p>
+<p>.xr-attrs dd {
+grid-column: 2;
+white-space: pre-wrap;
+word-break: break-all;
+}</p>
+<p>.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+display: inline-block;
+vertical-align: middle;
+width: 1em;
+height: 1.5em !important;
+stroke-width: 0;
+stroke: currentColor;
+fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt; Size: 3kB
+Dimensions:        (t: 197, feature: 1)
+Coordinates:</p>
+<ul class="simple">
+<li><p>t              (t) datetime64[ns] 2kB 2025-08-24 2025-08-25 … 2026-08-22
+lat            (feature) float64 8B …
+lon            (feature) float64 8B …
+feature_names  (feature) &lt;U9 36B …
+Dimensions without coordinates: feature
+Data variables:
+CO             (feature, t) float64 2kB …
+Attributes:
+Conventions:  CF-1.8
+source:       Aggregated timeseries generated by openEO GeoPySpark backend.</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-44599861-805a-4288-b9d3-35edc22692ad' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-44599861-805a-4288-b9d3-35edc22692ad' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>t</span>: 197</li><li><span>feature</span>: 1</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-4449d89c-509d-4850-99e0-03a526481890' class='xr-section-summary-in' type='checkbox'  checked><label for='section-4449d89c-509d-4850-99e0-03a526481890' class='xr-section-summary' >Coordinates: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>t</span></div><div class='xr-var-dims'>(t)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>2025-08-24 … 2026-08-22</div><input id='attrs-cc8e31ad-6f88-4e0d-85f9-8e707af607ea' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-cc8e31ad-6f88-4e0d-85f9-8e707af607ea' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-71dde49b-2bf0-4fb3-b916-532de7631c31' class='xr-var-data-in' type='checkbox'><label for='data-71dde49b-2bf0-4fb3-b916-532de7631c31' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>time</dd></dl></div><div class='xr-var-data'><pre>array([‘2025-08-24T00:00:00.000000000’, ‘2025-08-25T00:00:00.000000000’,
+‘2025-08-28T00:00:00.000000000’, ‘2025-08-29T00:00:00.000000000’,
+‘2025-08-30T00:00:00.000000000’, ‘2025-09-03T00:00:00.000000000’,
+‘2025-09-04T00:00:00.000000000’, ‘2025-09-05T00:00:00.000000000’,
+‘2025-09-07T00:00:00.000000000’, ‘2025-09-09T00:00:00.000000000’,
+‘2025-09-12T00:00:00.000000000’, ‘2025-09-13T00:00:00.000000000’,
+‘2025-09-14T00:00:00.000000000’, ‘2025-09-15T00:00:00.000000000’,
+‘2025-09-19T00:00:00.000000000’, ‘2025-09-20T00:00:00.000000000’,
+‘2025-09-21T00:00:00.000000000’, ‘2025-09-22T00:00:00.000000000’,
+‘2025-09-23T00:00:00.000000000’, ‘2025-09-25T00:00:00.000000000’,
+‘2025-09-27T00:00:00.000000000’, ‘2025-09-28T00:00:00.000000000’,
+‘2025-09-29T00:00:00.000000000’, ‘2025-10-03T00:00:00.000000000’,
+‘2025-10-04T00:00:00.000000000’, ‘2025-10-05T00:00:00.000000000’,
+‘2025-10-06T00:00:00.000000000’, ‘2025-10-07T00:00:00.000000000’,
+‘2025-10-09T00:00:00.000000000’, ‘2025-10-10T00:00:00.000000000’,
+‘2025-10-11T00:00:00.000000000’, ‘2025-10-12T00:00:00.000000000’,
+‘2025-10-14T00:00:00.000000000’, ‘2025-10-15T00:00:00.000000000’,
+‘2025-10-16T00:00:00.000000000’, ‘2025-10-17T00:00:00.000000000’,
+‘2025-10-26T00:00:00.000000000’, ‘2025-10-28T00:00:00.000000000’,
+‘2025-11-06T00:00:00.000000000’, ‘2025-11-07T00:00:00.000000000’,
+‘2025-11-23T00:00:00.000000000’, ‘2025-11-26T00:00:00.000000000’,
+‘2025-11-28T00:00:00.000000000’, ‘2025-12-03T00:00:00.000000000’,
+‘2025-12-05T00:00:00.000000000’, ‘2025-12-10T00:00:00.000000000’,
+‘2025-12-11T00:00:00.000000000’, ‘2025-12-12T00:00:00.000000000’,
+‘2025-12-15T00:00:00.000000000’, ‘2025-12-17T00:00:00.000000000’,
+‘2025-12-21T00:00:00.000000000’, ‘2025-12-22T00:00:00.000000000’,
+‘2025-12-23T00:00:00.000000000’, ‘2025-12-25T00:00:00.000000000’,
+‘2025-12-29T00:00:00.000000000’, ‘2026-01-03T00:00:00.000000000’,
+‘2026-01-04T00:00:00.000000000’, ‘2026-01-09T00:00:00.000000000’,
+‘2026-01-14T00:00:00.000000000’, ‘2026-01-19T00:00:00.000000000’,
+‘2026-01-21T00:00:00.000000000’, ‘2026-01-24T00:00:00.000000000’,
+‘2026-01-25T00:00:00.000000000’, ‘2026-01-27T00:00:00.000000000’,
+‘2026-01-29T00:00:00.000000000’, ‘2026-01-30T00:00:00.000000000’,
+‘2026-01-31T00:00:00.000000000’, ‘2026-02-02T00:00:00.000000000’,
+‘2026-02-03T00:00:00.000000000’, ‘2026-02-04T00:00:00.000000000’,
+‘2026-02-06T00:00:00.000000000’, ‘2026-02-16T00:00:00.000000000’,
+‘2026-02-17T00:00:00.000000000’, ‘2026-02-25T00:00:00.000000000’,
+‘2026-02-27T00:00:00.000000000’, ‘2026-02-28T00:00:00.000000000’,
+‘2026-03-05T00:00:00.000000000’, ‘2026-03-08T00:00:00.000000000’,
+‘2026-03-10T00:00:00.000000000’, ‘2026-03-12T00:00:00.000000000’,
+‘2026-03-14T00:00:00.000000000’, ‘2026-03-15T00:00:00.000000000’,
+‘2026-03-16T00:00:00.000000000’, ‘2026-03-17T00:00:00.000000000’,
+‘2026-03-18T00:00:00.000000000’, ‘2026-03-23T00:00:00.000000000’,
+‘2026-03-25T00:00:00.000000000’, ‘2026-03-26T00:00:00.000000000’,
+‘2026-03-27T00:00:00.000000000’, ‘2026-03-29T00:00:00.000000000’,
+‘2026-04-01T00:00:00.000000000’, ‘2026-04-02T00:00:00.000000000’,
+‘2026-04-03T00:00:00.000000000’, ‘2026-04-05T00:00:00.000000000’,
+‘2026-04-11T00:00:00.000000000’, ‘2026-04-13T00:00:00.000000000’,
+‘2026-04-15T00:00:00.000000000’, ‘2026-04-16T00:00:00.000000000’,
+‘2026-04-17T00:00:00.000000000’, ‘2026-04-18T00:00:00.000000000’,
+‘2026-04-19T00:00:00.000000000’, ‘2026-04-21T00:00:00.000000000’,
+‘2026-04-25T00:00:00.000000000’, ‘2026-04-26T00:00:00.000000000’,
+‘2026-05-01T00:00:00.000000000’, ‘2026-05-02T00:00:00.000000000’,
+‘2026-05-03T00:00:00.000000000’, ‘2026-05-05T00:00:00.000000000’,
+‘2026-05-06T00:00:00.000000000’, ‘2026-05-07T00:00:00.000000000’,
+‘2026-05-08T00:00:00.000000000’, ‘2026-05-10T00:00:00.000000000’,
+‘2026-05-11T00:00:00.000000000’, ‘2026-05-12T00:00:00.000000000’,
+‘2026-05-13T00:00:00.000000000’, ‘2026-05-15T00:00:00.000000000’,
+‘2026-05-17T00:00:00.000000000’, ‘2026-05-18T00:00:00.000000000’,
+‘2026-05-19T00:00:00.000000000’, ‘2026-05-21T00:00:00.000000000’,
+‘2026-05-22T00:00:00.000000000’, ‘2026-05-23T00:00:00.000000000’,
+‘2026-05-24T00:00:00.000000000’, ‘2026-05-25T00:00:00.000000000’,
+‘2026-05-26T00:00:00.000000000’, ‘2026-05-27T00:00:00.000000000’,
+‘2026-05-28T00:00:00.000000000’, ‘2026-05-29T00:00:00.000000000’,
+‘2026-05-31T00:00:00.000000000’, ‘2026-06-01T00:00:00.000000000’,
+‘2026-06-02T00:00:00.000000000’, ‘2026-06-03T00:00:00.000000000’,
+‘2026-06-04T00:00:00.000000000’, ‘2026-06-05T00:00:00.000000000’,
+‘2026-06-06T00:00:00.000000000’, ‘2026-06-07T00:00:00.000000000’,
+‘2026-06-08T00:00:00.000000000’, ‘2026-06-09T00:00:00.000000000’,
+‘2026-06-10T00:00:00.000000000’, ‘2026-06-11T00:00:00.000000000’,
+‘2026-06-13T00:00:00.000000000’, ‘2026-06-14T00:00:00.000000000’,
+‘2026-06-15T00:00:00.000000000’, ‘2026-06-17T00:00:00.000000000’,
+‘2026-06-18T00:00:00.000000000’, ‘2026-06-19T00:00:00.000000000’,
+‘2026-06-22T00:00:00.000000000’, ‘2026-06-23T00:00:00.000000000’,
+‘2026-06-24T00:00:00.000000000’, ‘2026-06-25T00:00:00.000000000’,
+‘2026-06-26T00:00:00.000000000’, ‘2026-06-27T00:00:00.000000000’,
+‘2026-06-28T00:00:00.000000000’, ‘2026-06-29T00:00:00.000000000’,
+‘2026-06-30T00:00:00.000000000’, ‘2026-07-01T00:00:00.000000000’,
+‘2026-07-02T00:00:00.000000000’, ‘2026-07-03T00:00:00.000000000’,
+‘2026-07-04T00:00:00.000000000’, ‘2026-07-05T00:00:00.000000000’,
+‘2026-07-06T00:00:00.000000000’, ‘2026-07-08T00:00:00.000000000’,
+‘2026-07-09T00:00:00.000000000’, ‘2026-07-10T00:00:00.000000000’,
+‘2026-07-12T00:00:00.000000000’, ‘2026-07-13T00:00:00.000000000’,
+‘2026-07-14T00:00:00.000000000’, ‘2026-07-15T00:00:00.000000000’,
+‘2026-07-16T00:00:00.000000000’, ‘2026-07-17T00:00:00.000000000’,
+‘2026-07-18T00:00:00.000000000’, ‘2026-07-19T00:00:00.000000000’,
+‘2026-07-20T00:00:00.000000000’, ‘2026-07-21T00:00:00.000000000’,
+‘2026-07-22T00:00:00.000000000’, ‘2026-07-24T00:00:00.000000000’,
+‘2026-07-25T00:00:00.000000000’, ‘2026-07-26T00:00:00.000000000’,
+‘2026-07-29T00:00:00.000000000’, ‘2026-07-31T00:00:00.000000000’,
+‘2026-08-01T00:00:00.000000000’, ‘2026-08-03T00:00:00.000000000’,
+‘2026-08-04T00:00:00.000000000’, ‘2026-08-05T00:00:00.000000000’,
+‘2026-08-06T00:00:00.000000000’, ‘2026-08-07T00:00:00.000000000’,
+‘2026-08-09T00:00:00.000000000’, ‘2026-08-10T00:00:00.000000000’,
+‘2026-08-11T00:00:00.000000000’, ‘2026-08-12T00:00:00.000000000’,
+‘2026-08-13T00:00:00.000000000’, ‘2026-08-14T00:00:00.000000000’,
+‘2026-08-16T00:00:00.000000000’, ‘2026-08-17T00:00:00.000000000’,
+‘2026-08-19T00:00:00.000000000’, ‘2026-08-21T00:00:00.000000000’,
+‘2026-08-22T00:00:00.000000000’], dtype=’datetime64[ns]’)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lat</span></div><div class='xr-var-dims'>(feature)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>…</div><input id='attrs-2a0d37b3-45e9-4dc5-badc-4f7501611543' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-2a0d37b3-45e9-4dc5-badc-4f7501611543' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-6a05d6df-8ad5-4b9a-a4b1-af522c39e828' class='xr-var-data-in' type='checkbox'><label for='data-6a05d6df-8ad5-4b9a-a4b1-af522c39e828' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees_north</dd><dt><span>standard_name :</span></dt><dd>latitude</dd></dl></div><div class='xr-var-data'><pre>[1 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lon</span></div><div class='xr-var-dims'>(feature)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>…</div><input id='attrs-44637148-5cb2-4ff4-b3c0-d018f861b74a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-44637148-5cb2-4ff4-b3c0-d018f861b74a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ebaf88ac-70af-4833-acfe-54b2913df3da' class='xr-var-data-in' type='checkbox'><label for='data-ebaf88ac-70af-4833-acfe-54b2913df3da' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees_east</dd><dt><span>standard_name :</span></dt><dd>longitude</dd></dl></div><div class='xr-var-data'><pre>[1 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>feature_names</span></div><div class='xr-var-dims'>(feature)</div><div class='xr-var-dtype'>&lt;U9</div><div class='xr-var-preview xr-preview'>…</div><input id='attrs-52f29662-afae-4e02-985d-0120ab030c6d' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-52f29662-afae-4e02-985d-0120ab030c6d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4c992f80-2289-47e1-a820-ae6f2a49ebe1' class='xr-var-data-in' type='checkbox'><label for='data-4c992f80-2289-47e1-a820-ae6f2a49ebe1' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>[1 values with dtype=&lt;U9]</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-5f8a177c-3958-4aa0-bac6-8fd3b0cfd276' class='xr-section-summary-in' type='checkbox'  checked><label for='section-5f8a177c-3958-4aa0-bac6-8fd3b0cfd276' class='xr-section-summary' >Data variables: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>CO</span></div><div class='xr-var-dims'>(feature, t)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>…</div><input id='attrs-ddd19842-338b-4545-86bb-b6589c4aba75' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-ddd19842-338b-4545-86bb-b6589c4aba75' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-83dfa03b-1b3f-458b-ae78-e270b171fd0a' class='xr-var-data-in' type='checkbox'><label for='data-83dfa03b-1b3f-458b-ae78-e270b171fd0a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>[197 values with dtype=float64]</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-7a370e0a-4700-481d-8319-3335578caed3' class='xr-section-summary-in' type='checkbox'  ><label for='section-7a370e0a-4700-481d-8319-3335578caed3' class='xr-section-summary' >Indexes: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>t</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-32fd626f-9e3c-4ac8-8c4e-f1bbbc93d9b8' class='xr-index-data-in' type='checkbox'/><label for='index-32fd626f-9e3c-4ac8-8c4e-f1bbbc93d9b8' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(DatetimeIndex([‘2025-08-24’, ‘2025-08-25’, ‘2025-08-28’, ‘2025-08-29’,
+‘2025-08-30’, ‘2025-09-03’, ‘2025-09-04’, ‘2025-09-05’,
+‘2025-09-07’, ‘2025-09-09’,
+…
+‘2026-08-10’, ‘2026-08-11’, ‘2026-08-12’, ‘2026-08-13’,
+‘2026-08-14’, ‘2026-08-16’, ‘2026-08-17’, ‘2026-08-19’,
+‘2026-08-21’, ‘2026-08-22’],
+dtype=’datetime64[ns]’, name=’t’, length=197, freq=None))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-f574a650-4b10-4893-8bcd-31c1c1b5fd27' class='xr-section-summary-in' type='checkbox'  checked><label for='section-f574a650-4b10-4893-8bcd-31c1c1b5fd27' class='xr-section-summary' >Attributes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>Conventions :</span></dt><dd>CF-1.8</dd><dt><span>source :</span></dt><dd>Aggregated timeseries generated by openEO GeoPySpark backend.</dd></dl></div></li></ul></div></div></p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mengubah hasil NetCDF menjadi DataFrame</span>
+<span class="n">df_co_raw</span> <span class="o">=</span> <span class="n">ds_co</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="c1"># Mengambil kolom waktu dan nilai CO</span>
+<span class="n">df_co_raw</span> <span class="o">=</span> <span class="n">df_co_raw</span><span class="p">[[</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="s2">&quot;CO&quot;</span><span class="p">]]</span>
+
+<span class="c1"># Mengubah nama dan format tanggal</span>
+<span class="n">df_co_raw</span> <span class="o">=</span> <span class="n">df_co_raw</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;t&quot;</span><span class="p">:</span> <span class="s2">&quot;Tanggal&quot;</span><span class="p">})</span>
+<span class="n">df_co_raw</span><span class="p">[</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_co_raw</span><span class="p">[</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">])</span>
+
+<span class="c1"># Mengurutkan data berdasarkan tanggal</span>
+<span class="n">df_co_raw</span> <span class="o">=</span> <span class="n">df_co_raw</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">)</span>
+
+<span class="c1"># Membentuk rentang tanggal lengkap selama 365 hari</span>
+<span class="n">tanggal_lengkap</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span>
+    <span class="n">start</span><span class="o">=</span><span class="s2">&quot;2025-08-24&quot;</span><span class="p">,</span>
+    <span class="n">periods</span><span class="o">=</span><span class="mi">365</span><span class="p">,</span>
+    <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;D&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Melengkapi tanggal yang tidak tersedia dengan NaN</span>
+<span class="n">df_co</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df_co_raw</span>
+    <span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">tanggal_lengkap</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">df_co</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Tanggal&quot;</span>
+<span class="n">df_co</span> <span class="o">=</span> <span class="n">df_co</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="c1"># Menyimpan data hasil persiapan</span>
+<span class="n">df_co</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+    <span class="s2">&quot;ProyekSainsData/data/processed/kualitas_udara_CO_Gubeng_365hari.csv&quot;</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="eksplorasi-data">
+<h2>5. Eksplorasi Data<a class="headerlink" href="#eksplorasi-data" title="Link to this heading">#</a></h2>
+<p>Eksplorasi data dilakukan untuk memahami karakteristik awal data Karbon Monoksida (CO) sebelum memasuki tahap preprocessing. Eksplorasi mencakup statistik deskriptif dan visualisasi deret waktu untuk melihat pola perubahan nilai CO serta kondisi data yang belum diproses.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df_co</span><span class="p">[[</span><span class="s2">&quot;CO&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</pre></div>
+</div>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>197.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>0.028914</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>0.004292</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.017851</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>0.026155</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>0.028623</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>0.031243</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>0.043366</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">df_co</span><span class="p">[</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">],</span>
+    <span class="n">df_co</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Time Series Karbon Monoksida (CO) Kecamatan Gubeng&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Konsentrasi CO&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="png" src="../_images/7_output_21_0.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ringkasan_missing</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;Kondisi&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;Data tersedia dari Sentinel-5P&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Total periode pengamatan&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Missing value&quot;</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Jumlah&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">df_co_raw</span><span class="p">),</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">df_co</span><span class="p">),</span>
+        <span class="n">df_co</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="p">]</span>
+<span class="p">})</span>
+
+<span class="n">ringkasan_missing</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</pre></div>
+</div>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Kondisi</th>
+      <th>Jumlah</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Data tersedia dari Sentinel-5P</td>
+      <td>197</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Total periode pengamatan</td>
+      <td>365</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Missing value</td>
+      <td>168</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</section>
+<section id="data-preprocessing">
+<h2>6. Data Preprocessing<a class="headerlink" href="#data-preprocessing" title="Link to this heading">#</a></h2>
+<p>Tahap preprocessing dilakukan untuk mempersiapkan data CO sebelum digunakan dalam ekstraksi fitur. Tahapan yang dilakukan meliputi penanganan missing value melalui imputation serta identifikasi dan perbaikan outlier.</p>
+<section id="missing-value-dan-imputation">
+<h3>6.1 Missing Value dan Imputation<a class="headerlink" href="#missing-value-dan-imputation" title="Link to this heading">#</a></h3>
+<p>Missing value pada data CO terjadi karena tidak semua hari dalam periode pengamatan memiliki observasi yang tersedia. Missing value perlu ditangani agar deret waktu memiliki data yang lengkap sebelum dilakukan ekstraksi fitur menggunakan TSFEL.</p>
+<p>Pada tahap ini digunakan interpolasi linear untuk memperkirakan nilai CO pada tanggal yang tidak memiliki observasi berdasarkan nilai pada tanggal sebelum dan sesudahnya.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Membuat salinan data sebelum imputation</span>
+<span class="n">df_co_imputed</span> <span class="o">=</span> <span class="n">df_co</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># Imputasi missing value menggunakan interpolasi linear</span>
+<span class="n">df_co_imputed</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df_co_imputed</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">bfill</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">ffill</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="c1"># Menyimpan hasil imputation</span>
+<span class="n">df_co_imputed</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+    <span class="s2">&quot;ProyekSainsData/data/processed/kualitas_udara_CO_Gubeng_imputed.csv&quot;</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ringkasan_imputation</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;Kondisi&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;Sebelum Imputation&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Setelah Imputation&quot;</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Missing Value&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="n">df_co</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+        <span class="n">df_co_imputed</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="p">]</span>
+<span class="p">})</span>
+
+<span class="n">ringkasan_imputation</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</pre></div>
+</div>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Kondisi</th>
+      <th>Missing Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Sebelum Imputation</td>
+      <td>168</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Setelah Imputation</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">df_co_imputed</span><span class="p">[</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">],</span>
+    <span class="n">df_co_imputed</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Time Series CO Kecamatan Gubeng Setelah Imputation&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Konsentrasi CO&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="png" src="../_images/8_output_27_0.png" /></p>
+</section>
+<section id="identifikasi-outlier">
+<h3>6.2 Identifikasi Outlier<a class="headerlink" href="#identifikasi-outlier" title="Link to this heading">#</a></h3>
+<p>Setelah missing value ditangani melalui proses imputation, tahap selanjutnya adalah mengidentifikasi outlier pada data CO. Outlier merupakan nilai yang memiliki perbedaan cukup jauh dibandingkan dengan pola umum data.</p>
+<p>Identifikasi outlier dilakukan menggunakan metode Interquartile Range (IQR). Metode ini menggunakan kuartil pertama (Q1) dan kuartil ketiga (Q3) untuk menentukan batas bawah dan batas atas data. Nilai yang berada di luar batas tersebut dikategorikan sebagai outlier.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Menghitung kuartil dan Interquartile Range (IQR)</span>
+<span class="n">Q1</span> <span class="o">=</span> <span class="n">df_co_imputed</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">Q3</span> <span class="o">=</span> <span class="n">df_co_imputed</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
+<span class="n">IQR</span> <span class="o">=</span> <span class="n">Q3</span> <span class="o">-</span> <span class="n">Q1</span>
+
+<span class="c1"># Menentukan batas outlier</span>
+<span class="n">batas_bawah</span> <span class="o">=</span> <span class="n">Q1</span> <span class="o">-</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span>
+<span class="n">batas_atas</span> <span class="o">=</span> <span class="n">Q3</span> <span class="o">+</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span>
+
+<span class="c1"># Mengidentifikasi outlier</span>
+<span class="n">outlier</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="n">df_co_imputed</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">batas_bawah</span><span class="p">)</span> <span class="o">|</span>
+    <span class="p">(</span><span class="n">df_co_imputed</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">batas_atas</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># Menyimpan data yang teridentifikasi sebagai outlier</span>
+<span class="n">df_outlier</span> <span class="o">=</span> <span class="n">df_co_imputed</span><span class="p">[</span><span class="n">outlier</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ringkasan_outlier</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;Keterangan&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;Q1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Q3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;IQR&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Batas Bawah&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Batas Atas&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Jumlah Outlier&quot;</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Nilai&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="n">Q1</span><span class="p">,</span>
+        <span class="n">Q3</span><span class="p">,</span>
+        <span class="n">IQR</span><span class="p">,</span>
+        <span class="n">batas_bawah</span><span class="p">,</span>
+        <span class="n">batas_atas</span><span class="p">,</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">df_outlier</span><span class="p">)</span>
+    <span class="p">]</span>
+<span class="p">})</span>
+
+<span class="n">ringkasan_outlier</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</pre></div>
+</div>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Keterangan</th>
+      <th>Nilai</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Q1</td>
+      <td>0.026539</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Q3</td>
+      <td>0.030859</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>IQR</td>
+      <td>0.004320</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Batas Bawah</td>
+      <td>0.020059</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Batas Atas</td>
+      <td>0.037338</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Jumlah Outlier</td>
+      <td>9.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span>
+    <span class="n">df_co_imputed</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">],</span>
+    <span class="n">tick_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Sebelum Perbaikan Outlier&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Identifikasi Outlier Data CO Kecamatan Gubeng&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Konsentrasi CO&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="png" src="../_images/9_output_31_0.png" /></p>
+</section>
+<section id="perbaikan-outlier">
+<h3>6.3 Perbaikan Outlier<a class="headerlink" href="#perbaikan-outlier" title="Link to this heading">#</a></h3>
+<p>Outlier yang telah teridentifikasi perlu diperbaiki agar tidak memberikan pengaruh yang berlebihan terhadap karakteristik deret waktu dan hasil ekstraksi fitur. Pada tahap ini, nilai yang teridentifikasi sebagai outlier diubah menjadi missing value sementara, kemudian diestimasi kembali menggunakan interpolasi linear berdasarkan nilai CO pada waktu sebelum dan sesudahnya.</p>
+<p>Pendekatan ini digunakan agar kontinuitas deret waktu tetap dipertahankan tanpa menghilangkan observasi berdasarkan tanggal.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Menyalin data hasil imputation</span>
+<span class="n">df_co_clean</span> <span class="o">=</span> <span class="n">df_co_imputed</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># Menandai nilai outlier sebagai NaN</span>
+<span class="n">df_co_clean</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">outlier</span><span class="p">,</span> <span class="s2">&quot;CO&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">)</span>
+
+<span class="c1"># Memperbaiki outlier menggunakan interpolasi linear</span>
+<span class="n">df_co_clean</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_co_clean</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Menangani kemungkinan NaN pada awal atau akhir deret waktu</span>
+<span class="n">df_co_clean</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df_co_clean</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">bfill</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">ffill</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="c1"># Menyimpan data akhir setelah preprocessing</span>
+<span class="n">df_co_clean</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+    <span class="s2">&quot;ProyekSainsData/data/processed/kualitas_udara_CO_Gubeng_clean.csv&quot;</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ringkasan_perbaikan</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;Kondisi&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;Sebelum Perbaikan&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Setelah Perbaikan&quot;</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;Jumlah Outlier&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">df_outlier</span><span class="p">),</span>
+        <span class="p">(</span>
+            <span class="p">(</span><span class="n">df_co_clean</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">batas_bawah</span><span class="p">)</span> <span class="o">|</span>
+            <span class="p">(</span><span class="n">df_co_clean</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">batas_atas</span><span class="p">)</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="p">]</span>
+<span class="p">})</span>
+
+<span class="n">ringkasan_perbaikan</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</pre></div>
+</div>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Kondisi</th>
+      <th>Jumlah Outlier</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Sebelum Perbaikan</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Setelah Perbaikan</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">df_co_imputed</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">],</span>
+        <span class="n">df_co_clean</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span>
+    <span class="p">],</span>
+    <span class="n">tick_labels</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;Sebelum Perbaikan&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Setelah Perbaikan&quot;</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Perbandingan Data CO Sebelum dan Setelah Perbaikan Outlier&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Konsentrasi CO&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="png" src="../_images/10_output_35_0.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">df_co_clean</span><span class="p">[</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">],</span>
+    <span class="n">df_co_clean</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Time Series CO Kecamatan Gubeng Setelah Preprocessing&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Konsentrasi CO&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="png" src="../_images/11_output_36_0.png" /></p>
+</section>
+</section>
+<section id="ekstraksi-fitur-menggunakan-tsfel">
+<h2>7. Ekstraksi Fitur Menggunakan TSFEL<a class="headerlink" href="#ekstraksi-fitur-menggunakan-tsfel" title="Link to this heading">#</a></h2>
+<p>TSFEL (Time Series Feature Extraction Library) digunakan untuk mengekstraksi karakteristik dari deret waktu Karbon Monoksida (CO) yang telah melalui tahap preprocessing. Ekstraksi fitur digunakan untuk mengubah data deret waktu menjadi representasi numerik berdasarkan karakteristik statistik, temporal, spektral, dan fractal.</p>
+<section id="persiapan-dan-konfigurasi-ekstraksi-fitur">
+<h3>7.1 Persiapan dan Konfigurasi Ekstraksi Fitur<a class="headerlink" href="#persiapan-dan-konfigurasi-ekstraksi-fitur" title="Link to this heading">#</a></h3>
+<p>Data CO hasil preprocessing digunakan sebagai sinyal masukan untuk proses ekstraksi fitur. Data memiliki satu observasi per hari sehingga frekuensi sampling ditetapkan sebesar 1 observasi per hari.</p>
+<p>Konfigurasi TSFEL kemudian disusun untuk menggunakan 68 jenis fitur yang mencakup fitur statistik, temporal, spektral, dan fractal. Fitur Lempel-Ziv yang secara default tidak aktif diaktifkan agar termasuk dalam daftar fitur yang digunakan. Selain itu, fitur ECDF slope ditambahkan karena fungsi tersebut tersedia dalam TSFEL tetapi tidak terdapat sebagai entri pada konfigurasi fitur default.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Persiapan data CO untuk ekstraksi fitur</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">tsfel</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Mengambil data CO yang telah melalui preprocessing</span>
+<span class="n">series_co</span> <span class="o">=</span> <span class="n">df_co_clean</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+<span class="c1"># Data memiliki satu observasi setiap hari</span>
+<span class="n">fs</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah data CO: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">series_co</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Frekuensi sampling: </span><span class="si">{</span><span class="n">fs</span><span class="si">}</span><span class="s2"> observasi/hari&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Lima data pertama:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">series_co</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jumlah data CO: 365
+Frekuensi sampling: 1 observasi/hari
+
+Lima data pertama:
+[0.03558657 0.02831089 0.02848885 0.02866681 0.02884477]
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Membuat konfigurasi TSFEL menggunakan 68 jenis fitur</span>
+
+<span class="n">cfg_68</span> <span class="o">=</span> <span class="n">tsfel</span><span class="o">.</span><span class="n">get_features_by_domain</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;statistical&quot;</span><span class="p">,</span> <span class="s2">&quot;temporal&quot;</span><span class="p">,</span> <span class="s2">&quot;spectral&quot;</span><span class="p">,</span> <span class="s2">&quot;fractal&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Mengaktifkan Lempel-Ziv complexity</span>
+<span class="k">if</span> <span class="s2">&quot;Lempel-Ziv complexity&quot;</span> <span class="ow">in</span> <span class="n">cfg_68</span><span class="p">[</span><span class="s2">&quot;temporal&quot;</span><span class="p">]:</span>
+    <span class="n">cfg_68</span><span class="p">[</span><span class="s2">&quot;temporal&quot;</span><span class="p">][</span><span class="s2">&quot;Lempel-Ziv complexity&quot;</span><span class="p">][</span><span class="s2">&quot;use&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;yes&quot;</span>
+
+<span class="c1"># Menambahkan ECDF slope yang tersedia sebagai fungsi TSFEL</span>
+<span class="c1"># tetapi tidak terdapat pada features.json default</span>
+<span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">tsfel</span><span class="p">,</span> <span class="s2">&quot;ecdf_slope&quot;</span><span class="p">):</span>
+    <span class="n">cfg_68</span><span class="p">[</span><span class="s2">&quot;statistical&quot;</span><span class="p">][</span><span class="s2">&quot;ECDF slope&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;complexity&quot;</span><span class="p">:</span> <span class="s2">&quot;constant&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Computes the slope of the ECDF between two percentiles.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;function&quot;</span><span class="p">:</span> <span class="s2">&quot;tsfel.ecdf_slope&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;p_init&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+            <span class="s2">&quot;p_end&quot;</span><span class="p">:</span> <span class="mf">0.75</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;n_features&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;use&quot;</span><span class="p">:</span> <span class="s2">&quot;yes&quot;</span>
+    <span class="p">}</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+        <span class="s2">&quot;Fungsi ecdf_slope tidak tersedia pada instalasi TSFEL.&quot;</span>
+    <span class="p">)</span>
+
+<span class="c1"># Menghitung jumlah jenis fitur yang aktif</span>
+<span class="n">daftar_fitur_68</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">domain</span><span class="p">,</span> <span class="n">fitur_domain</span> <span class="ow">in</span> <span class="n">cfg_68</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">nama_fitur</span><span class="p">,</span> <span class="n">pengaturan</span> <span class="ow">in</span> <span class="n">fitur_domain</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">pengaturan</span><span class="p">[</span><span class="s2">&quot;use&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;yes&quot;</span><span class="p">:</span>
+            <span class="n">daftar_fitur_68</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s2">&quot;Domain&quot;</span><span class="p">:</span> <span class="n">domain</span><span class="o">.</span><span class="n">capitalize</span><span class="p">(),</span>
+                <span class="s2">&quot;Nama Fitur&quot;</span><span class="p">:</span> <span class="n">nama_fitur</span>
+            <span class="p">})</span>
+
+<span class="n">df_daftar_fitur_68</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">daftar_fitur_68</span><span class="p">)</span>
+<span class="n">df_daftar_fitur_68</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
+    <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;No&quot;</span><span class="p">,</span>
+    <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_daftar_fitur_68</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">jumlah_jenis_fitur</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_daftar_fitur_68</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah jenis fitur aktif: </span><span class="si">{</span><span class="n">jumlah_jenis_fitur</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">df_daftar_fitur_68</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">jumlah_jenis_fitur</span> <span class="o">!=</span> <span class="mi">68</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Konfigurasi menghasilkan </span><span class="si">{</span><span class="n">jumlah_jenis_fitur</span><span class="si">}</span><span class="s2"> jenis fitur, &quot;</span>
+        <span class="s2">&quot;bukan 68. Periksa konfigurasi TSFEL.&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jumlah jenis fitur aktif: 68
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</pre></div>
+</div>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>No</th>
+      <th>Domain</th>
+      <th>Nama Fitur</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Statistical</td>
+      <td>Absolute energy</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>Statistical</td>
+      <td>Average power</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>Statistical</td>
+      <td>ECDF</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>Statistical</td>
+      <td>ECDF Percentile</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>Statistical</td>
+      <td>ECDF Percentile Count</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>64</td>
+      <td>Fractal</td>
+      <td>Higuchi fractal dimension</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>65</td>
+      <td>Fractal</td>
+      <td>Hurst exponent</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>66</td>
+      <td>Fractal</td>
+      <td>Maximum fractal length</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>67</td>
+      <td>Fractal</td>
+      <td>Petrosian fractal dimension</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>68</td>
+      <td>Fractal</td>
+      <td>Multiscale entropy</td>
+    </tr>
+  </tbody>
+</table>
+<p>68 rows × 3 columns</p>
+</div>
+</section>
+<section id="ekstraksi-dan-penyimpanan-hasil">
+<h3>7.2 Ekstraksi dan Penyimpanan Hasil<a class="headerlink" href="#ekstraksi-dan-penyimpanan-hasil" title="Link to this heading">#</a></h3>
+<p>Setelah konfigurasi 68 jenis fitur terbentuk, proses ekstraksi dilakukan terhadap deret waktu CO yang telah melalui preprocessing. TSFEL menghasilkan representasi numerik dari karakteristik deret waktu berdasarkan konfigurasi yang telah ditentukan.</p>
+<p>Hasil ekstraksi kemudian disimpan dalam format CSV agar dapat digunakan pada tahap analisis fitur selanjutnya.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ekstraksi 68 jenis fitur TSFEL pada data CO</span>
+<span class="c1"># Menggunakan fungsi internal TSFEL untuk menghindari masalah</span>
+<span class="c1"># duplicate column pada proses reindex bawaan.</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">tsfel.feature_extraction.calc_features</span><span class="w"> </span><span class="kn">import</span> <span class="n">calc_window_features</span>
+
+<span class="n">features_68_co</span> <span class="o">=</span> <span class="n">calc_window_features</span><span class="p">(</span>
+    <span class="n">cfg_68</span><span class="p">,</span>
+    <span class="n">series_co</span><span class="p">,</span>
+    <span class="n">fs</span><span class="p">,</span>
+    <span class="n">single_window</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># Memastikan hasil berbentuk DataFrame</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">features_68_co</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+    <span class="n">features_68_co</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">features_68_co</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah baris hasil ekstraksi: </span><span class="si">{</span><span class="n">features_68_co</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah kolom output fitur: </span><span class="si">{</span><span class="n">features_68_co</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">features_68_co</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>
+    Progress: 100% Complete
+<p/>
+<progress
+    value='68'
+    max='68',
+    style='width: 25%',
+>
+    68
+</progress>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jumlah baris hasil ekstraksi: 1
+Jumlah kolom output fitur: 164
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</pre></div>
+</div>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0_Absolute energy</th>
+      <th>0_Average power</th>
+      <th>0_ECDF_0</th>
+      <th>0_ECDF_1</th>
+      <th>0_ECDF_2</th>
+      <th>0_ECDF_3</th>
+      <th>0_ECDF_4</th>
+      <th>0_ECDF_5</th>
+      <th>0_ECDF_6</th>
+      <th>0_ECDF_7</th>
+      <th>...</th>
+      <th>0_Wavelet variance_0.04Hz</th>
+      <th>0_Wavelet variance_0.04Hz</th>
+      <th>0_Wavelet variance_0.03Hz</th>
+      <th>0_Wavelet variance_0.03Hz</th>
+      <th>0_Detrended fluctuation analysis</th>
+      <th>0_Higuchi fractal dimension</th>
+      <th>0_Hurst exponent</th>
+      <th>0_Maximum fractal length</th>
+      <th>0_Petrosian fractal dimension</th>
+      <th>0_Multiscale entropy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.302971</td>
+      <td>0.000832</td>
+      <td>0.00274</td>
+      <td>0.005479</td>
+      <td>0.008219</td>
+      <td>0.010959</td>
+      <td>0.013699</td>
+      <td>0.016438</td>
+      <td>0.019178</td>
+      <td>0.021918</td>
+      <td>...</td>
+      <td>0.000073</td>
+      <td>0.00009</td>
+      <td>0.000109</td>
+      <td>0.000131</td>
+      <td>0.853424</td>
+      <td>1.909033</td>
+      <td>0.754635</td>
+      <td>0.037436</td>
+      <td>1.023776</td>
+      <td>1.209065</td>
+    </tr>
+  </tbody>
+</table>
+<p>1 rows × 164 columns</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pemeriksaan dan perapihan nama kolom hasil ekstraksi</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Pemeriksaan Hasil Ekstraksi TSFEL ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah jenis fitur yang dikonfigurasi : </span><span class="si">{</span><span class="n">jumlah_jenis_fitur</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah output numerik yang dihasilkan : </span><span class="si">{</span><span class="n">features_68_co</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Mengidentifikasi nama kolom yang duplikat</span>
+<span class="n">kolom_duplikat</span> <span class="o">=</span> <span class="n">features_68_co</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span>
+    <span class="n">features_68_co</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah nama kolom duplikat            : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">kolom_duplikat</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kolom_duplikat</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Nama kolom yang duplikat:&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">nama</span> <span class="ow">in</span> <span class="n">kolom_duplikat</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">nama</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Membuat seluruh nama kolom menjadi unik</span>
+    <span class="n">nama_baru</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">penghitung</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">nama</span> <span class="ow">in</span> <span class="n">features_68_co</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">nama</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">penghitung</span><span class="p">:</span>
+            <span class="n">penghitung</span><span class="p">[</span><span class="n">nama</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">nama_baru</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nama</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">penghitung</span><span class="p">[</span><span class="n">nama</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">nama_baru</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">nama</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">penghitung</span><span class="p">[</span><span class="n">nama</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+    <span class="n">features_68_co</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">nama_baru</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Nama kolom telah dibuat unik.&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Tidak terdapat nama kolom duplikat.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Pemeriksaan akhir</span>
+<span class="n">jumlah_kolom_duplikat_akhir</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">features_68_co</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Jumlah nama kolom duplikat setelah perapihan: &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">jumlah_kolom_duplikat_akhir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">jumlah_jenis_fitur</span> <span class="o">==</span> <span class="mi">68</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ Konfigurasi berhasil menggunakan 68 jenis fitur.&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">jumlah_kolom_duplikat_akhir</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ Seluruh nama output fitur sekarang unik.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=== Pemeriksaan Hasil Ekstraksi TSFEL ===
+Jumlah jenis fitur yang dikonfigurasi : 68
+Jumlah output numerik yang dihasilkan : 164
+Jumlah nama kolom duplikat            : 8
+
+Nama kolom yang duplikat:
+- 0_Wavelet absolute mean_0.04Hz
+- 0_Wavelet absolute mean_0.03Hz
+- 0_Wavelet energy_0.04Hz
+- 0_Wavelet energy_0.03Hz
+- 0_Wavelet standard deviation_0.04Hz
+- 0_Wavelet standard deviation_0.03Hz
+- 0_Wavelet variance_0.04Hz
+- 0_Wavelet variance_0.03Hz
+
+Nama kolom telah dibuat unik.
+
+Jumlah nama kolom duplikat setelah perapihan: 0
+✓ Konfigurasi berhasil menggunakan 68 jenis fitur.
+✓ Seluruh nama output fitur sekarang unik.
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Menyimpan hasil ekstraksi 68 jenis fitur TSFEL</span>
+
+<span class="n">output_fitur_68</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;ProyekSainsData/data/processed/&quot;</span>
+    <span class="s2">&quot;fitur_TSFEL_CO_Gubeng_68_fitur.csv&quot;</span>
+<span class="p">)</span>
+
+<span class="n">features_68_co</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+    <span class="n">output_fitur_68</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hasil ekstraksi 68 jenis fitur TSFEL berhasil disimpan.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah jenis fitur : </span><span class="si">{</span><span class="n">jumlah_jenis_fitur</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah output fitur : </span><span class="si">{</span><span class="n">features_68_co</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Lokasi file        : </span><span class="si">{</span><span class="n">output_fitur_68</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Hasil ekstraksi 68 jenis fitur TSFEL berhasil disimpan.
+Jumlah jenis fitur : 68
+Jumlah output fitur : 164
+Lokasi file        : ProyekSainsData/data/processed/fitur_TSFEL_CO_Gubeng_68_fitur.csv
+</pre></div>
+</div>
+</section>
+</section>
+<section id="analisis-fitur-tsfel">
+<h2>8. Analisis Fitur TSFEL<a class="headerlink" href="#analisis-fitur-tsfel" title="Link to this heading">#</a></h2>
+<p>Hasil ekstraksi TSFEL selanjutnya dianalisis untuk mengetahui karakteristik deret waktu Karbon Monoksida (CO) pada Kecamatan Gubeng. Analisis menggunakan konfigurasi yang terdiri dari 68 jenis fitur dari berbagai karakteristik deret waktu.</p>
+<p>Perlu dibedakan antara jumlah jenis fitur dan jumlah output numerik. Sebanyak 68 jenis fitur digunakan dalam konfigurasi, sedangkan hasil ekstraksi menghasilkan 164 output numerik. Perbedaan jumlah tersebut terjadi karena beberapa jenis fitur menghasilkan lebih dari satu nilai keluaran.</p>
+<p>Analisis dilakukan dengan melihat daftar fitur yang digunakan, jumlah output yang dihasilkan, serta nilai masing-masing output fitur pada deret waktu CO setelah preprocessing.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ringkasan hasil ekstraksi TSFEL</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Ringkasan Hasil Ekstraksi TSFEL ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah jenis fitur yang digunakan : </span><span class="si">{</span><span class="n">jumlah_jenis_fitur</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah output numerik            : </span><span class="si">{</span><span class="n">features_68_co</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah data hasil ekstraksi      : </span><span class="si">{</span><span class="n">features_68_co</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Jumlah jenis fitur berdasarkan domain:&quot;</span><span class="p">)</span>
+
+<span class="n">ringkasan_domain</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df_daftar_fitur_68</span>
+    <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;Domain&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">size</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Jumlah Jenis Fitur&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">ringkasan_domain</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=== Ringkasan Hasil Ekstraksi TSFEL ===
+Jumlah jenis fitur yang digunakan : 68
+Jumlah output numerik            : 164
+Jumlah data hasil ekstraksi      : 1
+
+Jumlah jenis fitur berdasarkan domain:
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</pre></div>
+</div>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Domain</th>
+      <th>Jumlah Jenis Fitur</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Fractal</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Spectral</td>
+      <td>26</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Statistical</td>
+      <td>21</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Temporal</td>
+      <td>15</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Menampilkan daftar 68 jenis fitur yang digunakan</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Daftar 68 Jenis Fitur TSFEL ===&quot;</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span>
+    <span class="n">df_daftar_fitur_68</span><span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="s2">&quot;Domain&quot;</span><span class="p">,</span> <span class="s2">&quot;Nama Fitur&quot;</span><span class="p">]</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=== Daftar 68 Jenis Fitur TSFEL ===
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</pre></div>
+</div>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>No</th>
+      <th>Domain</th>
+      <th>Nama Fitur</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Statistical</td>
+      <td>Absolute energy</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>Statistical</td>
+      <td>Average power</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>Statistical</td>
+      <td>ECDF</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>Statistical</td>
+      <td>ECDF Percentile</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>Statistical</td>
+      <td>ECDF Percentile Count</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>64</td>
+      <td>Fractal</td>
+      <td>Higuchi fractal dimension</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>65</td>
+      <td>Fractal</td>
+      <td>Hurst exponent</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>66</td>
+      <td>Fractal</td>
+      <td>Maximum fractal length</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>67</td>
+      <td>Fractal</td>
+      <td>Petrosian fractal dimension</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>68</td>
+      <td>Fractal</td>
+      <td>Multiscale entropy</td>
+    </tr>
+  </tbody>
+</table>
+<p>68 rows × 3 columns</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Menampilkan seluruh output numerik hasil ekstraksi</span>
+
+<span class="n">hasil_fitur_68</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;Nama Output Fitur&quot;</span><span class="p">:</span> <span class="n">features_68_co</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+    <span class="s2">&quot;Nilai&quot;</span><span class="p">:</span> <span class="n">features_68_co</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="p">})</span>
+
+<span class="n">hasil_fitur_68</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
+    <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;No&quot;</span><span class="p">,</span>
+    <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hasil_fitur_68</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Nilai 164 Output Numerik TSFEL ===&quot;</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">hasil_fitur_68</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=== Nilai 164 Output Numerik TSFEL ===
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</pre></div>
+</div>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>No</th>
+      <th>Nama Output Fitur</th>
+      <th>Nilai</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0_Absolute energy</td>
+      <td>0.302971</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>0_Average power</td>
+      <td>0.000832</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>0_ECDF_0</td>
+      <td>0.002740</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>0_ECDF_1</td>
+      <td>0.005479</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0_ECDF_2</td>
+      <td>0.008219</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>159</th>
+      <td>160</td>
+      <td>0_Higuchi fractal dimension</td>
+      <td>1.909033</td>
+    </tr>
+    <tr>
+      <th>160</th>
+      <td>161</td>
+      <td>0_Hurst exponent</td>
+      <td>0.754635</td>
+    </tr>
+    <tr>
+      <th>161</th>
+      <td>162</td>
+      <td>0_Maximum fractal length</td>
+      <td>0.037436</td>
+    </tr>
+    <tr>
+      <th>162</th>
+      <td>163</td>
+      <td>0_Petrosian fractal dimension</td>
+      <td>1.023776</td>
+    </tr>
+    <tr>
+      <th>163</th>
+      <td>164</td>
+      <td>0_Multiscale entropy</td>
+      <td>1.209065</td>
+    </tr>
+  </tbody>
+</table>
+<p>164 rows × 3 columns</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ringkasan nilai output fitur</span>
+
+<span class="n">ringkasan_output</span> <span class="o">=</span> <span class="n">hasil_fitur_68</span><span class="p">[</span><span class="s2">&quot;Nilai&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Ringkasan Nilai Output Fitur ===&quot;</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span>
+    <span class="n">ringkasan_output</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Nilai&quot;</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=== Ringkasan Nilai Output Fitur ===
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</pre></div>
+</div>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Nilai</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>164.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>2.505799</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>101.826718</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>-1168.806518</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>0.000022</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>0.004695</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>0.449580</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>364.002006</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Hasil ekstraksi menunjukkan bahwa sebanyak 68 jenis fitur TSFEL berhasil digunakan pada data deret waktu Karbon Monoksida (CO) Kecamatan Gubeng. Fitur tersebut terdiri dari 21 fitur statistik, 15 fitur temporal, 26 fitur spektral, dan 6 fitur fractal.</p>
+<p>Dari 68 jenis fitur tersebut diperoleh 164 output numerik. Jumlah output lebih besar daripada jumlah jenis fitur karena beberapa fitur menghasilkan lebih dari satu nilai keluaran. Hasil tersebut digunakan sebagai representasi numerik dari karakteristik deret waktu CO setelah melalui tahap preprocessing.</p>
+<p>Fitur statistik menggambarkan karakteristik nilai dan distribusi sinyal, fitur temporal menggambarkan perubahan sinyal terhadap waktu, fitur spektral menggambarkan karakteristik berdasarkan komponen frekuensi, sedangkan fitur fractal menggambarkan karakteristik kompleksitas dan struktur deret waktu.</p>
+</section>
+<section id="analisis-kemiripan-co-dan-co2">
+<h2>9. Analisis Kemiripan CO dan CO₂<a class="headerlink" href="#analisis-kemiripan-co-dan-co2" title="Link to this heading">#</a></h2>
+<p>Analisis kemiripan dilakukan untuk membandingkan karakteristik deret waktu Karbon Monoksida (CO) dan Karbon Dioksida (CO₂). Data CO diperoleh dari Sentinel-5P pada Kecamatan Gubeng, sedangkan data CO₂ diperoleh dari hasil pengukuran kualitas udara di Kampus ITS Surabaya.</p>
+<p>Karena kedua dataset memiliki periode pengamatan yang berbeda, analisis dilakukan hanya pada tanggal yang tersedia pada kedua dataset. Data CO₂ yang memiliki resolusi pengamatan per menit telah diagregasi menjadi nilai rata-rata harian sehingga memiliki resolusi waktu yang sama dengan data CO.</p>
+<p>Setelah kedua dataset diselaraskan berdasarkan tanggal, data yang memiliki nilai lengkap pada kedua parameter digunakan untuk analisis. Selanjutnya, 68 jenis fitur TSFEL diterapkan secara konsisten pada deret waktu CO dan CO₂ untuk memperoleh representasi karakteristik masing-masing deret waktu.</p>
+<p>Kemiripan dianalisis melalui visualisasi deret waktu serta perbandingan representasi output fitur TSFEL menggunakan Cosine Similarity dan korelasi Pearson. Hasil analisis digunakan untuk melihat apakah karakteristik deret waktu CO dan CO₂ menunjukkan kemiripan berdasarkan representasi fitur TSFEL pada periode pengamatan yang sama.</p>
+<section id="penyelarasan-data-co-dan-co2">
+<h3>9.1 Penyelarasan Data CO dan CO₂<a class="headerlink" href="#penyelarasan-data-co-dan-co2" title="Link to this heading">#</a></h3>
+<p>Data CO dan CO₂ terlebih dahulu diselaraskan berdasarkan tanggal pengamatan. Karena kedua dataset memiliki periode pengamatan yang berbeda, analisis hanya dilakukan pada tanggal yang tersedia pada kedua dataset.</p>
+<p>Data CO₂ yang memiliki resolusi pengamatan per menit telah diagregasi menjadi nilai rata-rata harian sehingga memiliki resolusi waktu yang sama dengan data CO. Setelah kedua dataset digabungkan berdasarkan tanggal, baris yang tidak memiliki nilai lengkap pada kedua parameter dihapus.</p>
+<p>Hasil penyelarasan menghasilkan 102 hari pengamatan yang dapat digunakan untuk analisis kemiripan.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Menyelaraskan data CO dan CO₂ berdasarkan tanggal</span>
+
+<span class="n">tanggal_mulai_kemiripan</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+    <span class="n">df_co_clean</span><span class="p">[</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+    <span class="n">df_co2_harian</span><span class="p">[</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">tanggal_akhir_kemiripan</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+    <span class="n">df_co_clean</span><span class="p">[</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+    <span class="n">df_co2_harian</span><span class="p">[</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="c1"># Mengambil data pada periode yang sama</span>
+<span class="n">df_co_kemiripan</span> <span class="o">=</span> <span class="n">df_co_clean</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">df_co_clean</span><span class="p">[</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">tanggal_mulai_kemiripan</span><span class="p">)</span> <span class="o">&amp;</span>
+    <span class="p">(</span><span class="n">df_co_clean</span><span class="p">[</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">tanggal_akhir_kemiripan</span><span class="p">)</span>
+<span class="p">][[</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">,</span> <span class="s2">&quot;CO&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">df_co2_kemiripan</span> <span class="o">=</span> <span class="n">df_co2_harian</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">df_co2_harian</span><span class="p">[</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">tanggal_mulai_kemiripan</span><span class="p">)</span> <span class="o">&amp;</span>
+    <span class="p">(</span><span class="n">df_co2_harian</span><span class="p">[</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">tanggal_akhir_kemiripan</span><span class="p">)</span>
+<span class="p">][[</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># Menggabungkan berdasarkan tanggal</span>
+<span class="n">df_kemiripan</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">df_co_kemiripan</span><span class="p">,</span>
+    <span class="n">df_co2_kemiripan</span><span class="p">,</span>
+    <span class="n">on</span><span class="o">=</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">,</span>
+    <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Menghapus baris yang masih memiliki missing value</span>
+<span class="n">df_kemiripan</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df_kemiripan</span>
+    <span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">,</span> <span class="s2">&quot;CO2&quot;</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Periode Analisis Kemiripan ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;Periode: </span><span class="si">{</span><span class="n">df_kemiripan</span><span class="p">[</span><span class="s1">&#39;Tanggal&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2"> &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;sampai </span><span class="si">{</span><span class="n">df_kemiripan</span><span class="p">[</span><span class="s1">&#39;Tanggal&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah hari yang dapat dibandingkan: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_kemiripan</span><span class="p">)</span><span class="si">}</span><span class="s2"> hari&quot;</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">df_kemiripan</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=== Periode Analisis Kemiripan ===
+Periode: 2025-08-24 sampai 2025-12-11
+Jumlah hari yang dapat dibandingkan: 102 hari
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</pre></div>
+</div>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Tanggal</th>
+      <th>CO</th>
+      <th>CO2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-08-24</td>
+      <td>0.035587</td>
+      <td>413.960000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-08-25</td>
+      <td>0.028311</td>
+      <td>426.921569</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-08-26</td>
+      <td>0.028489</td>
+      <td>425.769231</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-08-27</td>
+      <td>0.028667</td>
+      <td>420.801980</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-08-28</td>
+      <td>0.028845</td>
+      <td>421.135417</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2025-08-29</td>
+      <td>0.022107</td>
+      <td>423.333333</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2025-08-30</td>
+      <td>0.026482</td>
+      <td>419.062500</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2025-08-31</td>
+      <td>0.024324</td>
+      <td>416.750000</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2025-09-01</td>
+      <td>0.022166</td>
+      <td>464.217391</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2025-09-02</td>
+      <td>0.022403</td>
+      <td>414.345652</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualisasi perbandingan deret waktu CO dan CO₂</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">df_kemiripan</span><span class="p">[</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">],</span>
+    <span class="n">df_kemiripan</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">],</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;CO&quot;</span>
+<span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;CO&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">df_kemiripan</span><span class="p">[</span><span class="s2">&quot;Tanggal&quot;</span><span class="p">],</span>
+    <span class="n">df_kemiripan</span><span class="p">[</span><span class="s2">&quot;CO2&quot;</span><span class="p">],</span>
+    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;CO₂&quot;</span>
+<span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;CO₂ (ppm)&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+    <span class="s2">&quot;Perbandingan Deret Waktu CO dan CO₂ &quot;</span>
+    <span class="s2">&quot;pada Periode Pengamatan yang Sama&quot;</span>
+<span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="png" src="../_images/12_output_54_0.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Menyiapkan deret waktu CO dan CO₂ untuk ekstraksi fitur</span>
+
+<span class="n">series_co_compare</span> <span class="o">=</span> <span class="n">df_kemiripan</span><span class="p">[</span><span class="s2">&quot;CO&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">series_co2_compare</span> <span class="o">=</span> <span class="n">df_kemiripan</span><span class="p">[</span><span class="s2">&quot;CO2&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="n">fs_compare</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Persiapan Ekstraksi Fitur untuk Analisis Kemiripan ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah data CO  : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">series_co_compare</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah data CO₂ : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">series_co2_compare</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Frekuensi sampling: </span><span class="si">{</span><span class="n">fs_compare</span><span class="si">}</span><span class="s2"> observasi/hari&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">series_co_compare</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">series_co2_compare</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="s2">&quot;Jumlah titik data CO dan CO₂ tidak sama.&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=== Persiapan Ekstraksi Fitur untuk Analisis Kemiripan ===
+Jumlah data CO  : 102
+Jumlah data CO₂ : 102
+Frekuensi sampling: 1 observasi/hari
+</pre></div>
+</div>
+</section>
+<section id="ekstraksi-68-fitur-tsfel">
+<h3>9.2 Ekstraksi 68 Fitur TSFEL<a class="headerlink" href="#ekstraksi-68-fitur-tsfel" title="Link to this heading">#</a></h3>
+<p>Pada tahap ini, 68 jenis fitur TSFEL diterapkan pada deret waktu CO dan CO₂ yang telah diselaraskan berdasarkan tanggal.</p>
+<p>Agar perbandingan fitur dilakukan secara konsisten, data CO dan CO₂ yang digunakan memiliki periode dan jumlah titik pengamatan yang sama, yaitu 102 hari pengamatan yang tersedia pada kedua dataset.</p>
+<p>Ekstraksi dilakukan menggunakan satu window yang mencakup seluruh periode pengamatan. Karena beberapa jenis fitur TSFEL dapat menghasilkan lebih dari satu nilai output, jumlah output numerik yang dihasilkan dapat lebih besar daripada jumlah jenis fitur yang digunakan.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ekstraksi 68 jenis fitur TSFEL pada data CO₂</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">warning_tsfel</span><span class="p">:</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;always&quot;</span><span class="p">)</span>
+
+    <span class="n">features_68_co2</span> <span class="o">=</span> <span class="n">calc_window_features</span><span class="p">(</span>
+        <span class="n">cfg_68</span><span class="p">,</span>
+        <span class="n">series_co2_compare</span><span class="p">,</span>
+        <span class="n">fs_compare</span><span class="p">,</span>
+        <span class="n">single_window</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+<span class="c1"># Memastikan hasil berbentuk DataFrame</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">features_68_co2</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+    <span class="n">features_68_co2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">features_68_co2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Hasil Ekstraksi Fitur CO₂ ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah jenis fitur : </span><span class="si">{</span><span class="n">jumlah_jenis_fitur</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah output fitur: </span><span class="si">{</span><span class="n">features_68_co2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah baris       : </span><span class="si">{</span><span class="n">features_68_co2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Menjelaskan keterbatasan fitur fractal</span>
+<span class="k">if</span> <span class="n">warning_tsfel</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Catatan:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="s2">&quot;Beberapa fitur fractal tidak dapat dihitung karena &quot;</span>
+        <span class="s2">&quot;jumlah data CO₂ yang tersedia kurang dari 160 titik.&quot;</span>
+    <span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="s2">&quot;Output fitur yang tidak dapat dihitung akan menghasilkan &quot;</span>
+        <span class="s2">&quot;nilai NaN dan tidak digunakan dalam analisis kemiripan.&quot;</span>
+    <span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">features_68_co2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>
+    Progress: 100% Complete
+<p/>
+<progress
+    value='68'
+    max='68',
+    style='width: 25%',
+>
+    68
+</progress>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=== Hasil Ekstraksi Fitur CO₂ ===
+Jumlah jenis fitur : 68
+Jumlah output fitur: 164
+Jumlah baris       : 1
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</pre></div>
+</div>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0_Absolute energy</th>
+      <th>0_Average power</th>
+      <th>0_ECDF_0</th>
+      <th>0_ECDF_1</th>
+      <th>0_ECDF_2</th>
+      <th>0_ECDF_3</th>
+      <th>0_ECDF_4</th>
+      <th>0_ECDF_5</th>
+      <th>0_ECDF_6</th>
+      <th>0_ECDF_7</th>
+      <th>...</th>
+      <th>0_Wavelet variance_0.04Hz</th>
+      <th>0_Wavelet variance_0.04Hz</th>
+      <th>0_Wavelet variance_0.03Hz</th>
+      <th>0_Wavelet variance_0.03Hz</th>
+      <th>0_Detrended fluctuation analysis</th>
+      <th>0_Higuchi fractal dimension</th>
+      <th>0_Hurst exponent</th>
+      <th>0_Maximum fractal length</th>
+      <th>0_Petrosian fractal dimension</th>
+      <th>0_Multiscale entropy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.839738e+07</td>
+      <td>182152.266767</td>
+      <td>0.009804</td>
+      <td>0.019608</td>
+      <td>0.029412</td>
+      <td>0.039216</td>
+      <td>0.04902</td>
+      <td>0.058824</td>
+      <td>0.068627</td>
+      <td>0.078431</td>
+      <td>...</td>
+      <td>32192.222416</td>
+      <td>41419.500984</td>
+      <td>50569.653766</td>
+      <td>59283.22873</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.050881</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>1 rows × 164 columns</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ekstraksi 68 jenis fitur TSFEL pada data CO</span>
+<span class="c1"># menggunakan periode pengamatan yang sama dengan CO₂</span>
+
+<span class="n">features_68_co_compare</span> <span class="o">=</span> <span class="n">calc_window_features</span><span class="p">(</span>
+    <span class="n">cfg_68</span><span class="p">,</span>
+    <span class="n">series_co_compare</span><span class="p">,</span>
+    <span class="n">fs_compare</span><span class="p">,</span>
+    <span class="n">single_window</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># Memastikan hasil berbentuk DataFrame</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">features_68_co_compare</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+    <span class="n">features_68_co_compare</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">features_68_co_compare</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Hasil Ekstraksi Fitur CO ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah jenis fitur : </span><span class="si">{</span><span class="n">jumlah_jenis_fitur</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah output fitur: </span><span class="si">{</span><span class="n">features_68_co_compare</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah baris       : </span><span class="si">{</span><span class="n">features_68_co_compare</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">features_68_co_compare</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>
+    Progress: 100% Complete
+<p/>
+<progress
+    value='68'
+    max='68',
+    style='width: 25%',
+>
+    68
+</progress>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=== Hasil Ekstraksi Fitur CO ===
+Jumlah jenis fitur : 68
+Jumlah output fitur: 164
+Jumlah baris       : 1
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</pre></div>
+</div>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0_Absolute energy</th>
+      <th>0_Average power</th>
+      <th>0_ECDF_0</th>
+      <th>0_ECDF_1</th>
+      <th>0_ECDF_2</th>
+      <th>0_ECDF_3</th>
+      <th>0_ECDF_4</th>
+      <th>0_ECDF_5</th>
+      <th>0_ECDF_6</th>
+      <th>0_ECDF_7</th>
+      <th>...</th>
+      <th>0_Wavelet variance_0.04Hz</th>
+      <th>0_Wavelet variance_0.04Hz</th>
+      <th>0_Wavelet variance_0.03Hz</th>
+      <th>0_Wavelet variance_0.03Hz</th>
+      <th>0_Detrended fluctuation analysis</th>
+      <th>0_Higuchi fractal dimension</th>
+      <th>0_Hurst exponent</th>
+      <th>0_Maximum fractal length</th>
+      <th>0_Petrosian fractal dimension</th>
+      <th>0_Multiscale entropy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.088638</td>
+      <td>0.000878</td>
+      <td>0.009804</td>
+      <td>0.019608</td>
+      <td>0.029412</td>
+      <td>0.039216</td>
+      <td>0.04902</td>
+      <td>0.058824</td>
+      <td>0.068627</td>
+      <td>0.078431</td>
+      <td>...</td>
+      <td>0.00016</td>
+      <td>0.000194</td>
+      <td>0.000232</td>
+      <td>0.000262</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.026231</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>1 rows × 164 columns</p>
+</div>
+</section>
+<section id="pemeriksaan-output-fitur">
+<h3>9.3 Pemeriksaan Output Fitur<a class="headerlink" href="#pemeriksaan-output-fitur" title="Link to this heading">#</a></h3>
+<p>Hasil ekstraksi fitur diperiksa untuk mengetahui apakah terdapat output fitur yang menghasilkan nilai NaN pada data CO dan CO₂. Kondisi tersebut dapat terjadi pada beberapa fitur yang memiliki persyaratan jumlah titik data minimum tertentu.</p>
+<p>Output fitur yang tidak dapat dihitung pada salah satu parameter tidak digunakan dalam perbandingan. Dengan demikian, analisis kemiripan hanya menggunakan output fitur yang memiliki nilai lengkap pada kedua parameter.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pemeriksaan output fitur CO₂ yang tidak dapat dihitung</span>
+
+<span class="n">jumlah_nan_co2</span> <span class="o">=</span> <span class="n">features_68_co2</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">kolom_nan_co2</span> <span class="o">=</span> <span class="n">features_68_co2</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span>
+    <span class="n">features_68_co2</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+<span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Pemeriksaan Missing Value Hasil TSFEL CO₂ ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah seluruh output fitur : </span><span class="si">{</span><span class="n">features_68_co2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah nilai NaN             : </span><span class="si">{</span><span class="n">jumlah_nan_co2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah output yang memiliki NaN: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">kolom_nan_co2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Output fitur yang memiliki NaN:&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">nama</span> <span class="ow">in</span> <span class="n">kolom_nan_co2</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">nama</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=== Pemeriksaan Missing Value Hasil TSFEL CO₂ ===
+Jumlah seluruh output fitur : 164
+Jumlah nilai NaN             : 5
+Jumlah output yang memiliki NaN: 5
+
+Output fitur yang memiliki NaN:
+- 0_Detrended fluctuation analysis
+- 0_Higuchi fractal dimension
+- 0_Hurst exponent
+- 0_Maximum fractal length
+- 0_Multiscale entropy
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Menyiapkan output fitur yang valid untuk perbandingan CO dan CO₂</span>
+
+<span class="n">jumlah_output_co</span> <span class="o">=</span> <span class="n">features_68_co_compare</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">jumlah_output_co2</span> <span class="o">=</span> <span class="n">features_68_co2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Pemeriksaan Output Fitur ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah output fitur CO  : </span><span class="si">{</span><span class="n">jumlah_output_co</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah output fitur CO₂ : </span><span class="si">{</span><span class="n">jumlah_output_co2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">jumlah_output_co</span> <span class="o">!=</span> <span class="n">jumlah_output_co2</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="s2">&quot;Jumlah output fitur CO dan CO₂ tidak sama.&quot;</span>
+    <span class="p">)</span>
+
+<span class="c1"># Memeriksa output fitur yang memiliki nilai lengkap</span>
+<span class="n">valid_co</span> <span class="o">=</span> <span class="o">~</span><span class="n">features_68_co_compare</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">valid_co2</span> <span class="o">=</span> <span class="o">~</span><span class="n">features_68_co2</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+<span class="c1"># Hanya menggunakan output yang valid pada kedua data</span>
+<span class="n">mask_valid</span> <span class="o">=</span> <span class="n">valid_co</span> <span class="o">&amp;</span> <span class="n">valid_co2</span>
+
+<span class="n">kolom_valid</span> <span class="o">=</span> <span class="n">features_68_co_compare</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">mask_valid</span><span class="p">]</span>
+
+<span class="n">fitur_co_valid</span> <span class="o">=</span> <span class="n">features_68_co_compare</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">mask_valid</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">fitur_co2_valid</span> <span class="o">=</span> <span class="n">features_68_co2</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">mask_valid</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Output Fitur yang Digunakan untuk Perbandingan ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total output fitur hasil ekstraksi : </span><span class="si">{</span><span class="n">jumlah_output_co</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Output fitur valid pada kedua data : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">kolom_valid</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;Output fitur tidak digunakan       : &quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">jumlah_output_co</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">kolom_valid</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Output fitur yang tidak digunakan:&quot;</span><span class="p">)</span>
+
+<span class="n">kolom_tidak_valid</span> <span class="o">=</span> <span class="n">features_68_co_compare</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="o">~</span><span class="n">mask_valid</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">nama</span> <span class="ow">in</span> <span class="n">kolom_tidak_valid</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">nama</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Lima output pertama yang digunakan:&quot;</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+        <span class="s2">&quot;No&quot;</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">kolom_valid</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="s2">&quot;Nama Output Fitur&quot;</span><span class="p">:</span> <span class="n">kolom_valid</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+    <span class="p">})</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=== Pemeriksaan Output Fitur ===
+Jumlah output fitur CO  : 164
+Jumlah output fitur CO₂ : 164
+
+=== Output Fitur yang Digunakan untuk Perbandingan ===
+Total output fitur hasil ekstraksi : 164
+Output fitur valid pada kedua data : 159
+Output fitur tidak digunakan       : 5
+
+Output fitur yang tidak digunakan:
+- 0_Detrended fluctuation analysis
+- 0_Higuchi fractal dimension
+- 0_Hurst exponent
+- 0_Maximum fractal length
+- 0_Multiscale entropy
+
+Lima output pertama yang digunakan:
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</pre></div>
+</div>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>No</th>
+      <th>Nama Output Fitur</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0_Absolute energy</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>0_Average power</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>0_ECDF_0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>0_ECDF_1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0_ECDF_2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</section>
+<section id="perbandingan-output-fitur-co-dan-co2">
+<h3>9.4 Perbandingan Output Fitur CO dan CO₂<a class="headerlink" href="#perbandingan-output-fitur-co-dan-co2" title="Link to this heading">#</a></h3>
+<p>Output fitur dari deret waktu CO dan CO₂ dibandingkan berdasarkan posisi kolom yang sama. Hanya output fitur yang memiliki nilai lengkap pada kedua parameter yang digunakan dalam analisis kemiripan.</p>
+<p>Berdasarkan hasil pemeriksaan, terdapat 164 output fitur hasil ekstraksi. Sebanyak 159 output fitur memiliki nilai lengkap pada kedua parameter, sedangkan 5 output fitur tidak digunakan karena menghasilkan nilai NaN pada data CO₂.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Membandingkan nilai output fitur CO dan CO₂</span>
+
+<span class="n">tabel_perbandingan</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;Nama Output Fitur&quot;</span><span class="p">:</span> <span class="n">kolom_valid</span><span class="p">,</span>
+    <span class="s2">&quot;CO&quot;</span><span class="p">:</span> <span class="n">fitur_co_valid</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+    <span class="s2">&quot;CO₂&quot;</span><span class="p">:</span> <span class="n">fitur_co2_valid</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="p">})</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Tabel Perbandingan Output Fitur CO dan CO₂ ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah output fitur yang dibandingkan: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">tabel_perbandingan</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">tabel_perbandingan</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=== Tabel Perbandingan Output Fitur CO dan CO₂ ===
+Jumlah output fitur yang dibandingkan: 159
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</pre></div>
+</div>
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Nama Output Fitur</th>
+      <th>CO</th>
+      <th>CO₂</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0_Absolute energy</td>
+      <td>0.302971</td>
+      <td>1.839738e+07</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0_Average power</td>
+      <td>0.000832</td>
+      <td>1.821523e+05</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0_ECDF_0</td>
+      <td>0.002740</td>
+      <td>9.803922e-03</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0_ECDF_1</td>
+      <td>0.005479</td>
+      <td>1.960784e-02</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0_ECDF_2</td>
+      <td>0.008219</td>
+      <td>2.941176e-02</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>154</th>
+      <td>0_Wavelet variance_0.04Hz</td>
+      <td>0.000073</td>
+      <td>3.219222e+04</td>
+    </tr>
+    <tr>
+      <th>155</th>
+      <td>0_Wavelet variance_0.04Hz_2</td>
+      <td>0.000090</td>
+      <td>4.141950e+04</td>
+    </tr>
+    <tr>
+      <th>156</th>
+      <td>0_Wavelet variance_0.03Hz</td>
+      <td>0.000109</td>
+      <td>5.056965e+04</td>
+    </tr>
+    <tr>
+      <th>157</th>
+      <td>0_Wavelet variance_0.03Hz_2</td>
+      <td>0.000131</td>
+      <td>5.928323e+04</td>
+    </tr>
+    <tr>
+      <th>158</th>
+      <td>0_Petrosian fractal dimension</td>
+      <td>1.023776</td>
+      <td>1.050881e+00</td>
+    </tr>
+  </tbody>
+</table>
+<p>159 rows × 3 columns</p>
+</div>
+</section>
+<section id="cosine-similarity">
+<h3>9.5 Cosine Similarity<a class="headerlink" href="#cosine-similarity" title="Link to this heading">#</a></h3>
+<p>Cosine Similarity digunakan untuk mengukur tingkat kemiripan arah antara vektor output fitur CO dan CO₂. Perhitungan dilakukan menggunakan output fitur yang memiliki nilai lengkap pada kedua parameter.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Menghitung Cosine Similarity antara fitur CO dan CO₂</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics.pairwise</span><span class="w"> </span><span class="kn">import</span> <span class="n">cosine_similarity</span>
+
+<span class="c1"># Mengambil vektor fitur CO dan CO₂</span>
+<span class="n">vektor_co</span> <span class="o">=</span> <span class="n">fitur_co_valid</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">vektor_co2</span> <span class="o">=</span> <span class="n">fitur_co2_valid</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="c1"># Menghitung cosine similarity</span>
+<span class="n">nilai_cosine</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span>
+    <span class="n">vektor_co</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">vektor_co2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Cosine Similarity CO dan CO₂ ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah output fitur yang digunakan : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">kolom_valid</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nilai Cosine Similarity            : </span><span class="si">{</span><span class="n">nilai_cosine</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=== Cosine Similarity CO dan CO₂ ===
+Jumlah output fitur yang digunakan : 159
+Nilai Cosine Similarity            : 0.018474
+</pre></div>
+</div>
+<p><strong>Interpretasi</strong></p>
+<p>Nilai Cosine Similarity yang diperoleh adalah 0.018474. Nilai tersebut sangat dekat dengan 0 sehingga menunjukkan bahwa arah vektor karakteristik yang direpresentasikan oleh output fitur CO dan CO₂ memiliki tingkat kemiripan yang sangat rendah.</p>
+<p>Hasil ini menunjukkan bahwa berdasarkan representasi fitur TSFEL, karakteristik CO dan CO₂ pada periode pengamatan yang sama tidak memiliki kemiripan arah vektor yang kuat.</p>
+</section>
+<section id="korelasi-pearson">
+<h3>9.6 Korelasi Pearson<a class="headerlink" href="#korelasi-pearson" title="Link to this heading">#</a></h3>
+<p>Selain Cosine Similarity, korelasi Pearson digunakan untuk mengukur hubungan linear antara output fitur CO dan CO₂. Nilai korelasi Pearson berada pada rentang -1 sampai 1, dengan nilai positif menunjukkan hubungan searah dan nilai negatif menunjukkan hubungan berlawanan arah.</p>
+<p>Perhitungan dilakukan menggunakan 159 output fitur yang memiliki nilai lengkap pada kedua parameter.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Menghitung korelasi Pearson antara output fitur CO dan CO₂</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">pearsonr</span>
+
+<span class="c1"># Mengambil nilai fitur yang valid pada kedua data</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">fitur_co_valid</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">fitur_co2_valid</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="c1"># Menghitung korelasi Pearson</span>
+<span class="n">nilai_korelasi</span><span class="p">,</span> <span class="n">nilai_p</span> <span class="o">=</span> <span class="n">pearsonr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Korelasi Pearson Fitur CO dan CO₂ ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah output fitur yang digunakan : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">kolom_valid</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nilai Korelasi Pearson             : </span><span class="si">{</span><span class="n">nilai_korelasi</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nilai p-value                      : </span><span class="si">{</span><span class="n">nilai_p</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>=== Korelasi Pearson Fitur CO dan CO₂ ===
+Jumlah output fitur yang digunakan : 159
+Nilai Korelasi Pearson             : 0.008837
+Nilai p-value                      : 0.911976
+</pre></div>
+</div>
+<p><strong>Interpretasi</strong></p>
+<p>Nilai korelasi Pearson yang diperoleh adalah 0.008837. Nilai tersebut sangat dekat dengan 0 sehingga menunjukkan bahwa hubungan linear antara output fitur CO dan CO₂ sangat lemah.</p>
+<p>Nilai p-value yang diperoleh adalah 0.911976. Karena nilai p-value lebih besar dari 0.05, tidak terdapat bukti yang cukup untuk menyatakan adanya hubungan linear yang signifikan antara output fitur CO dan CO₂ pada tingkat signifikansi 5%.</p>
+<p>Dengan demikian, berdasarkan 159 output fitur TSFEL yang memiliki nilai lengkap pada kedua parameter, CO dan CO₂ tidak menunjukkan hubungan linear yang signifikan pada periode pengamatan yang sama.</p>
+</section>
+<section id="kesimpulan-analisis-kemiripan">
+<h3>9.7 Kesimpulan Analisis Kemiripan<a class="headerlink" href="#kesimpulan-analisis-kemiripan" title="Link to this heading">#</a></h3>
+<p>Berdasarkan hasil analisis menggunakan 159 output fitur TSFEL yang memiliki nilai lengkap pada kedua parameter, diperoleh nilai Cosine Similarity sebesar 0.018474. Nilai tersebut sangat dekat dengan 0 sehingga menunjukkan bahwa arah vektor karakteristik CO dan CO₂ memiliki tingkat kemiripan yang sangat rendah.</p>
+<p>Hasil analisis korelasi Pearson menunjukkan nilai sebesar 0.008837 dengan p-value sebesar 0.911976. Nilai korelasi yang sangat dekat dengan 0 menunjukkan bahwa hubungan linear antara output fitur CO dan CO₂ sangat lemah. Selain itu, nilai p-value yang lebih besar dari 0.05 menunjukkan bahwa tidak terdapat hubungan linear yang signifikan secara statistik pada tingkat signifikansi 5%.</p>
+<p>Dengan demikian, berdasarkan representasi 68 jenis fitur TSFEL dan 159 output fitur yang memiliki nilai lengkap, karakteristik deret waktu CO dan CO₂ pada periode pengamatan yang sama tidak menunjukkan kemiripan yang kuat maupun hubungan linear yang signifikan.</p>
+</section>
+</section>
+<section id="kesimpulan">
+<h2>10. Kesimpulan<a class="headerlink" href="#kesimpulan" title="Link to this heading">#</a></h2>
+<p>Analisis data kualitas udara dilakukan terhadap Karbon Monoksida (CO) pada Kecamatan Gubeng, Kota Surabaya menggunakan data Sentinel-5P. Tahapan analisis meliputi pemahaman data, penentuan Area of Interest (AOI), pengambilan data, eksplorasi data, preprocessing, ekstraksi fitur menggunakan TSFEL, serta analisis kemiripan antara CO dan CO₂.</p>
+<p>Pada tahap preprocessing, data CO diperiksa terhadap missing value dan outlier. Missing value ditangani menggunakan interpolasi linear yang dilengkapi dengan backward fill dan forward fill. Identifikasi outlier dilakukan menggunakan metode Interquartile Range (IQR), kemudian nilai outlier diperbaiki menggunakan interpolasi sehingga diperoleh deret waktu CO yang telah melalui proses pembersihan data.</p>
+<p>Ekstraksi fitur menggunakan TSFEL dilakukan dengan 68 jenis fitur untuk memperoleh representasi karakteristik deret waktu CO. Hasil ekstraksi menghasilkan 164 output numerik karena beberapa jenis fitur dapat menghasilkan lebih dari satu output. Pendekatan yang sama diterapkan pada data CO₂ untuk memperoleh representasi fitur yang dapat dibandingkan.</p>
+<p>Analisis kemiripan dilakukan pada periode ketika data CO dan CO₂ tersedia secara bersamaan. Data CO₂ yang memiliki resolusi pengamatan per menit diagregasi menjadi nilai rata-rata harian sehingga memiliki resolusi waktu yang sama dengan data CO. Setelah penyelarasan berdasarkan tanggal, diperoleh 102 hari pengamatan yang dapat dibandingkan.</p>
+<p>Dari 68 jenis fitur TSFEL diperoleh 164 output numerik. Sebanyak 159 output fitur memiliki nilai lengkap pada kedua parameter dan digunakan dalam analisis kemiripan, sedangkan 5 output fitur tidak digunakan karena tidak dapat dihitung pada data CO₂ akibat keterbatasan jumlah titik data yang memenuhi persyaratan fitur tersebut.</p>
+<p>Hasil Cosine Similarity antara vektor fitur CO dan CO₂ sebesar 0.018474. Nilai tersebut sangat dekat dengan 0 sehingga menunjukkan bahwa arah vektor karakteristik CO dan CO₂ memiliki tingkat kemiripan yang sangat rendah. Sementara itu, korelasi Pearson menghasilkan nilai sebesar 0.008837 dengan p-value sebesar 0.911976. Nilai korelasi yang sangat dekat dengan 0 menunjukkan hubungan linear yang sangat lemah, sedangkan p-value yang lebih besar dari 0.05 menunjukkan bahwa hubungan tersebut tidak signifikan secara statistik pada tingkat signifikansi 5%.</p>
+<p>Berdasarkan keseluruhan hasil analisis, karakteristik deret waktu CO dan CO₂ pada periode pengamatan yang sama tidak menunjukkan kemiripan yang kuat berdasarkan representasi fitur TSFEL serta tidak menunjukkan hubungan linear yang signifikan secara statistik.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./md"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="pertemuan_2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Tugas Pertemuan 2: Pengolahan dan Analisis Data Kualitas Udara Surabaya Menggunakan PostgreSQL dan KNIME</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contents">Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#business-understanding">1. Business Understanding</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#latar-belakang">Latar Belakang</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan">Tujuan</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding">2. Data Understanding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-area-of-interest-aoi-tingkat-kecamatan">3. Menentukan Area of Interest (AOI) Tingkat Kecamatan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pengambilan-data-karbon-monoksida-co">4. Pengambilan Data Karbon Monoksida (CO)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data">5. Eksplorasi Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preprocessing">6. Data Preprocessing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-value-dan-imputation">6.1 Missing Value dan Imputation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#identifikasi-outlier">6.2 Identifikasi Outlier</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perbaikan-outlier">6.3 Perbaikan Outlier</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-fitur-menggunakan-tsfel">7. Ekstraksi Fitur Menggunakan TSFEL</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#persiapan-dan-konfigurasi-ekstraksi-fitur">7.1 Persiapan dan Konfigurasi Ekstraksi Fitur</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-dan-penyimpanan-hasil">7.2 Ekstraksi dan Penyimpanan Hasil</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-fitur-tsfel">8. Analisis Fitur TSFEL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-kemiripan-co-dan-co2">9. Analisis Kemiripan CO dan CO₂</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penyelarasan-data-co-dan-co2">9.1 Penyelarasan Data CO dan CO₂</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-68-fitur-tsfel">9.2 Ekstraksi 68 Fitur TSFEL</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pemeriksaan-output-fitur">9.3 Pemeriksaan Output Fitur</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perbandingan-output-fitur-co-dan-co2">9.4 Perbandingan Output Fitur CO dan CO₂</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cosine-similarity">9.5 Cosine Similarity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#korelasi-pearson">9.6 Korelasi Pearson</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan-analisis-kemiripan">9.7 Kesimpulan Analisis Kemiripan</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan">10. Kesimpulan</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roti18
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
