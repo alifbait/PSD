@@ -5,5 +5,5 @@ chapters:
   title: "Analisis Kualitas Udara Kota Surabaya Menggunakan Data Sentinel-5P"
 - file: md/pertemuan_2
   title: "Tugas Pertemuan 2: Pengolahan dan Analisis Data Kualitas Udara Surabaya Menggunakan PostgreSQL dan KNIME"
-- file: md/Pertemuan_3
+- file: md/pertemuan_3
   title: "Alif_Analisis Time Series Karbon Monoksida (CO) Tingkat Kecamatan di Kota Surabaya Menggunakan TSFEL"
