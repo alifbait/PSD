@@ -44,52 +44,38 @@ Setelah proses agregasi selesai, data untuk masing-masing polutan akan dijalanka
 
 
 ```python
+# Peta AOI Kecamatan Gubeng menggunakan Folium
+
 import geopandas as gpd
 import folium
 import os
+import time
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from IPython.display import Image, display
 
-# Folder data mentah
 folder_raw = r"C:\Users\Alif\ProyekSainsData\data\raw"
-
-# Folder gambar
 folder_img = r"C:\Users\Alif\ProyekSainsData\img"
 
-# 1. Membaca batas administrasi kecamatan
-path_shp = os.path.join(
-    folder_raw,
-    "11032026_batas_kec",
-    "11032026_BATAS_KEC.shp"
-)
-
+path_shp = os.path.join(folder_raw, "11032026_batas_kec", "11032026_BATAS_KEC.shp")
 gdf_kecamatan = gpd.read_file(path_shp)
 
-# 2. Mengambil Kecamatan Gubeng
-gdf_gubeng = gdf_kecamatan[
-    gdf_kecamatan["K"].str.upper() == "GUBENG"
-].copy()
-
-# Mengubah sistem koordinat menjadi WGS84
+gdf_gubeng = gdf_kecamatan[gdf_kecamatan["K"].str.upper() == "GUBENG"].copy()
 gdf_gubeng = gdf_gubeng.to_crs(epsg=4326)
 
-# 3. Definisikan AOI Kecamatan Gubeng
 aoi = {
     "type": "FeatureCollection",
-    "features": [
-        {
-            "type": "Feature",
-            "properties": {},
-            "geometry": gdf_gubeng.geometry.iloc[0].__geo_interface__
-        }
-    ]
+    "features": [{
+        "type": "Feature",
+        "properties": {},
+        "geometry": gdf_gubeng.geometry.iloc[0].__geo_interface__
+    }]
 }
 
-# 4. Titik tengah fokus peta
 center = gdf_gubeng.geometry.iloc[0].centroid
-
 center_lat = center.y
 center_lon = center.x
 
-# 5. Buat peta dasar dengan fitur interaktif yang dimatikan
 m = folium.Map(
     location=[center_lat, center_lon],
     zoom_start=13,
@@ -102,7 +88,6 @@ m = folium.Map(
     keyboard=False
 )
 
-# 6. Tambahkan poligon AOI ke peta
 folium.GeoJson(
     aoi,
     name="Alif_AOI_Gubeng_Surabaya",
@@ -114,34 +99,41 @@ folium.GeoJson(
     }
 ).add_to(m)
 
-# 7. Simpan peta sebagai HTML
-file_peta = os.path.join(
-    folder_img,
-    "Alif_01_AOI_Gubeng_Surabaya.html"
-)
-
+file_peta = os.path.join(folder_img, "alif_01_aoi_gubeng_surabaya.html")
 m.save(file_peta)
 
-print(
-    f"Peta berhasil disimpan menjadi "
-    f"'{os.path.basename(file_peta)}'"
-)
+print(f"Peta berhasil disimpan menjadi '{os.path.basename(file_peta)}'")
 
-# Tampilkan peta
-m
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--disable-gpu")
+chrome_options.add_argument("--window-size=1200,800")
+chrome_options.add_argument("--no-sandbox")
+
+driver = webdriver.Chrome(options=chrome_options)
+
+try:
+    driver.get("file:///" + file_peta.replace("\\", "/"))
+    time.sleep(5)
+
+    file_gambar = os.path.join(folder_img, "alif_01_aoi_gubeng_surabaya.png")
+    driver.save_screenshot(file_gambar)
+
+    print(f"Gambar peta berhasil disimpan menjadi '{os.path.basename(file_gambar)}'")
+
+finally:
+    driver.quit()
+
+display(Image(filename=file_gambar))
 ```
 
-    Peta berhasil disimpan menjadi 'Alif_01_AOI_Gubeng_Surabaya.html'
+    Peta berhasil disimpan menjadi 'alif_01_aoi_gubeng_surabaya.html'
+    Gambar peta berhasil disimpan menjadi 'alif_01_aoi_gubeng_surabaya.png'
     
 
 
-
-<iframe
-    src="../img/Alif_01_aoi_gubeng_surabaya.html"
-    width="100%"
-    height="600"
-    style="border: none;">
-</iframe>
+    
+![Area of Interest Kecamatan Gubeng](../img/alif_01_aoi_gubeng_surabaya.png)
 
 
 
@@ -558,7 +550,7 @@ plt.show()
 
 
     
-![Tren 5 Polutan](../img/alif_02_tren_5_polutan_gubeng_surabaya.png)
+![Tren 5 Polutan](../img/alif_02_Tren_5_Polutan_Gubeng_Surabaya.png)
 
 
 
@@ -818,8 +810,7 @@ plt.show()
 
 
     
-![Tren 5 Polutan](../img/alif_03_Perbandingan_Imputasi_CO_Gubeng.png)
-
+![Perbandingan Imputasi CO](../img/alif_03_Perbandingan_Imputasi_CO_Gubeng.png)    
 
 
 

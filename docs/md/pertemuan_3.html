@@ -60,7 +60,7 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'md/Pertemuan_3';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'md/pertemuan_3';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="prev" title="Tugas Pertemuan 2: Pengolahan dan Analisis Data Kualitas Udara Surabaya Menggunakan PostgreSQL dan KNIME" href="pertemuan_2.html" />
@@ -247,7 +247,7 @@
       
       
       
-      <li><a href="https://github.com/alifbait/PSD.git/issues/new?title=Issue%20on%20page%20%2Fmd/Pertemuan_3.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/alifbait/PSD.git/issues/new?title=Issue%20on%20page%20%2Fmd/pertemuan_3.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -277,7 +277,7 @@
       
       
       
-      <li><a href="../_sources/md/Pertemuan_3.md" target="_blank"
+      <li><a href="../_sources/md/pertemuan_3.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -429,52 +429,38 @@
 <p>Data yang akan digunakan berasal dari Sentinel-5P dengan periode pengamatan selama satu tahun, yaitu mulai dari 24 Agustus 2025 sampai 24 Agustus 2026. Pada tahap pengambilan data ini, terdapat lima parameter polutan yang digunakan, yaitu CO, NO2, O3, SO2, dan CH4.</p>
 <p>Setiap parameter akan diambil berdasarkan wilayah Kecamatan Gubeng sebagai Area of Interest (AOI). Data yang diperoleh dari Sentinel-5P kemudian akan diagregasi berdasarkan waktu menjadi data harian agar tidak terdapat banyak observasi dalam satu hari. Selain itu, dilakukan agregasi spasial menggunakan nilai rata-rata pada wilayah AOI Kecamatan Gubeng sehingga diperoleh data deret waktu yang mewakili kondisi masing-masing polutan pada wilayah penelitian.</p>
 <p>Setelah proses agregasi selesai, data untuk masing-masing polutan akan dijalankan melalui batch job pada Copernicus. Hasil pengambilan data kemudian disimpan dalam format NetCDF (.nc) untuk digunakan pada tahap pengolahan berikutnya.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Peta AOI Kecamatan Gubeng menggunakan Folium</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">folium</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">selenium</span><span class="w"> </span><span class="kn">import</span> <span class="n">webdriver</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">selenium.webdriver.chrome.options</span><span class="w"> </span><span class="kn">import</span> <span class="n">Options</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">display</span>
 
-<span class="c1"># Folder data mentah</span>
 <span class="n">folder_raw</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Users\Alif\ProyekSainsData\data\raw&quot;</span>
-
-<span class="c1"># Folder gambar</span>
 <span class="n">folder_img</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Users\Alif\ProyekSainsData\img&quot;</span>
 
-<span class="c1"># 1. Membaca batas administrasi kecamatan</span>
-<span class="n">path_shp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-    <span class="n">folder_raw</span><span class="p">,</span>
-    <span class="s2">&quot;11032026_batas_kec&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;11032026_BATAS_KEC.shp&quot;</span>
-<span class="p">)</span>
-
+<span class="n">path_shp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_raw</span><span class="p">,</span> <span class="s2">&quot;11032026_batas_kec&quot;</span><span class="p">,</span> <span class="s2">&quot;11032026_BATAS_KEC.shp&quot;</span><span class="p">)</span>
 <span class="n">gdf_kecamatan</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">path_shp</span><span class="p">)</span>
 
-<span class="c1"># 2. Mengambil Kecamatan Gubeng</span>
-<span class="n">gdf_gubeng</span> <span class="o">=</span> <span class="n">gdf_kecamatan</span><span class="p">[</span>
-    <span class="n">gdf_kecamatan</span><span class="p">[</span><span class="s2">&quot;K&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;GUBENG&quot;</span>
-<span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-
-<span class="c1"># Mengubah sistem koordinat menjadi WGS84</span>
+<span class="n">gdf_gubeng</span> <span class="o">=</span> <span class="n">gdf_kecamatan</span><span class="p">[</span><span class="n">gdf_kecamatan</span><span class="p">[</span><span class="s2">&quot;K&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;GUBENG&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">gdf_gubeng</span> <span class="o">=</span> <span class="n">gdf_gubeng</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
 
-<span class="c1"># 3. Definisikan AOI Kecamatan Gubeng</span>
 <span class="n">aoi</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;FeatureCollection&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;features&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{},</span>
-            <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="n">gdf_gubeng</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">__geo_interface__</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
+    <span class="s2">&quot;features&quot;</span><span class="p">:</span> <span class="p">[{</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="n">gdf_gubeng</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">__geo_interface__</span>
+    <span class="p">}]</span>
 <span class="p">}</span>
 
-<span class="c1"># 4. Titik tengah fokus peta</span>
 <span class="n">center</span> <span class="o">=</span> <span class="n">gdf_gubeng</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">centroid</span>
-
 <span class="n">center_lat</span> <span class="o">=</span> <span class="n">center</span><span class="o">.</span><span class="n">y</span>
 <span class="n">center_lon</span> <span class="o">=</span> <span class="n">center</span><span class="o">.</span><span class="n">x</span>
 
-<span class="c1"># 5. Buat peta dasar dengan fitur interaktif yang dimatikan</span>
 <span class="n">m</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span>
     <span class="n">location</span><span class="o">=</span><span class="p">[</span><span class="n">center_lat</span><span class="p">,</span> <span class="n">center_lon</span><span class="p">],</span>
     <span class="n">zoom_start</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span>
@@ -487,7 +473,6 @@
     <span class="n">keyboard</span><span class="o">=</span><span class="kc">False</span>
 <span class="p">)</span>
 
-<span class="c1"># 6. Tambahkan poligon AOI ke peta</span>
 <span class="n">folium</span><span class="o">.</span><span class="n">GeoJson</span><span class="p">(</span>
     <span class="n">aoi</span><span class="p">,</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Alif_AOI_Gubeng_Surabaya&quot;</span><span class="p">,</span>
@@ -499,32 +484,39 @@
     <span class="p">}</span>
 <span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
 
-<span class="c1"># 7. Simpan peta sebagai HTML</span>
-<span class="n">file_peta</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-    <span class="n">folder_img</span><span class="p">,</span>
-    <span class="s2">&quot;Alif_01_AOI_Gubeng_Surabaya.html&quot;</span>
-<span class="p">)</span>
-
+<span class="n">file_peta</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_img</span><span class="p">,</span> <span class="s2">&quot;alif_01_aoi_gubeng_surabaya.html&quot;</span><span class="p">)</span>
 <span class="n">m</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">file_peta</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;Peta berhasil disimpan menjadi &quot;</span>
-    <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file_peta</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
-<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Peta berhasil disimpan menjadi &#39;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file_peta</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
 
-<span class="c1"># Tampilkan peta</span>
-<span class="n">m</span>
+<span class="n">chrome_options</span> <span class="o">=</span> <span class="n">Options</span><span class="p">()</span>
+<span class="n">chrome_options</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--headless&quot;</span><span class="p">)</span>
+<span class="n">chrome_options</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--disable-gpu&quot;</span><span class="p">)</span>
+<span class="n">chrome_options</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--window-size=1200,800&quot;</span><span class="p">)</span>
+<span class="n">chrome_options</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--no-sandbox&quot;</span><span class="p">)</span>
+
+<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Chrome</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="n">chrome_options</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;file:///&quot;</span> <span class="o">+</span> <span class="n">file_peta</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">))</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="n">file_gambar</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_img</span><span class="p">,</span> <span class="s2">&quot;alif_01_aoi_gubeng_surabaya.png&quot;</span><span class="p">)</span>
+    <span class="n">driver</span><span class="o">.</span><span class="n">save_screenshot</span><span class="p">(</span><span class="n">file_gambar</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gambar peta berhasil disimpan menjadi &#39;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file_gambar</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+
+<span class="k">finally</span><span class="p">:</span>
+    <span class="n">driver</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">file_gambar</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Peta berhasil disimpan menjadi &#39;Alif_01_AOI_Gubeng_Surabaya.html&#39;
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Peta berhasil disimpan menjadi &#39;alif_01_aoi_gubeng_surabaya.html&#39;
+Gambar peta berhasil disimpan menjadi &#39;alif_01_aoi_gubeng_surabaya.png&#39;
 </pre></div>
 </div>
-<iframe
-    src="../img/Alif_01_aoi_gubeng_surabaya.html"
-    width="100%"
-    height="600"
-    style="border: none;">
-</iframe>
+<p><img alt="Area of Interest Kecamatan Gubeng" src="../_images/alif_01_aoi_gubeng_surabaya.png" /></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">openeo</span>
 
 <span class="c1"># Menghubungkan ke Copernicus Data Space Ecosystem</span>
@@ -918,7 +910,7 @@ File tersimpan: C:\Users\Alif\ProyekSainsData\data\raw\Alif_Data_Gubeng_Surabaya
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><img alt="Tren 5 Polutan" src="../_images/alif_02_tren_5_polutan_gubeng_surabaya.png" /></p>
+<p><img alt="Tren 5 Polutan" src="../_images/alif_02_Tren_5_Polutan_Gubeng_Surabaya.png" /></p>
 </section>
 <section id="memeriksa-data-polutan-co">
 <h3>Memeriksa Data Polutan CO<a class="headerlink" href="#memeriksa-data-polutan-co" title="Link to this heading">#</a></h3>
@@ -1151,7 +1143,7 @@ Persentase       : 46.03%
 Grafik berhasil disimpan menjadi &#39;Alif_03_Perbandingan_Imputasi_CO_Gubeng.png&#39;
 </pre></div>
 </div>
-<p><img alt="Tren 5 Polutan" src="../_images/alif_03_Perbandingan_Imputasi_CO_Gubeng.png" /></p>
+<p><img alt="Perbandingan Imputasi CO" src="../_images/alif_03_Perbandingan_Imputasi_CO_Gubeng.png" /></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
