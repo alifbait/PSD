@@ -551,7 +551,7 @@ plt.show()
 
 
     
-![Tren 5 Polutan](../img/Alif_02_Tren_5_Polutan_Gubeng_Surabaya.png)
+![Tren 5 Polutan](../img/alif_02_Tren_5_Polutan_Gubeng_Surabaya.png)
 
 
 
