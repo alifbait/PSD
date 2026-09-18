@@ -550,7 +550,8 @@ plt.show()
 
 
     
-![Tren 5 Polutan](../img/alif_02_Tren_5_Polutan_Gubeng_Surabaya.png)
+![Tren 5 Polutan](../img/a
+Alif_02_Tren_5_Polutan_Gubeng_Surabaya.png)
 
 
 
@@ -1338,7 +1339,7 @@ print(
 
     
 ![Penanganan Outlier CO](../img/alif_05_Penanganan_Outlier_CO_Gubeng.png)
-    
+
 
 
     Dataset final tersimpan sebagai 'Alif_Data_CO_Gubeng_Ready_TSFEL.csv'
