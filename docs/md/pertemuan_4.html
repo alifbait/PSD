@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="./" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Mata kuliah Proyek Sains Data &#8212; My sample book</title>
+    <title>Analisis K-Means Menggunakan PCA dan Tanpa PCA &#8212; My sample book</title>
   
   
   
@@ -27,45 +27,43 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="_static/doctools.js?v=9a2dae69"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="_static/copybutton.js?v=f281be69"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'intro';</script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Analisis Kualitas Udara Kota Surabaya Menggunakan Data Sentinel-5P" href="md/pertemuan_1.html" />
+    <script>DOCUMENTATION_OPTIONS.pagename = 'md/pertemuan_4';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Analisis Time Series Empat Polutan Tingkat Kecamatan di Kota Surabaya Menggunakan TSFEL dan K-Means" href="pertemuan_3.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -87,7 +85,7 @@
   <dialog id="pst-search-dialog">
     
 <form class="bd-search d-flex align-items-center"
-      action="search.html"
+      action="../search.html"
       method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search"
@@ -117,8 +115,6 @@
       
       
       
-        
-      
       <dialog id="pst-primary-sidebar-modal"></dialog>
       <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
@@ -138,7 +134,7 @@
     
   
 
-<a class="navbar-brand logo" href="#">
+<a class="navbar-brand logo" href="../intro.html">
   
   
   
@@ -149,8 +145,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="My sample book - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="My sample book - Home"/>
   
   
 </a></div>
@@ -165,17 +161,17 @@
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
-            <li class="toctree-l1 current active">
-                <a class="reference internal" href="#">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
                     Mata kuliah Proyek Sains Data
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="md/pertemuan_1.html">Analisis Kualitas Udara Kota Surabaya Menggunakan Data Sentinel-5P</a></li>
-<li class="toctree-l1"><a class="reference internal" href="md/pertemuan_2.html">Tugas Pertemuan 2: Pengolahan dan Analisis Data Kualitas Udara Surabaya Menggunakan PostgreSQL dan KNIME</a></li>
-<li class="toctree-l1"><a class="reference internal" href="md/pertemuan_3.html">Analisis Time Series Empat Polutan Tingkat Kecamatan di Kota Surabaya Menggunakan TSFEL dan K-Means</a></li>
-<li class="toctree-l1"><a class="reference internal" href="md/pertemuan_4.html">Analisis K-Means Menggunakan PCA dan Tanpa PCA</a></li>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pertemuan_1.html">Analisis Kualitas Udara Kota Surabaya Menggunakan Data Sentinel-5P</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pertemuan_2.html">Tugas Pertemuan 2: Pengolahan dan Analisis Data Kualitas Udara Surabaya Menggunakan PostgreSQL dan KNIME</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pertemuan_3.html">Analisis Time Series Empat Polutan Tingkat Kecamatan di Kota Surabaya Menggunakan TSFEL dan K-Means</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Analisis K-Means Menggunakan PCA dan Tanpa PCA</a></li>
 </ul>
 
     </div>
@@ -252,7 +248,7 @@
       
       
       
-      <li><a href="https://github.com/alifbait/PSD.git/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/alifbait/PSD.git/issues/new?title=Issue%20on%20page%20%2Fmd/pertemuan_4.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -282,7 +278,7 @@
       
       
       
-      <li><a href="_sources/intro.md" target="_blank"
+      <li><a href="../_sources/md/pertemuan_4.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -358,7 +354,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Mata kuliah Proyek Sains Data</h1>
+    <h1>Analisis K-Means Menggunakan PCA dan Tanpa PCA</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -368,8 +364,12 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#identitas-mahasiswa">Identitas Mahasiswa</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tentang-book-ini">Tentang Book Ini</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow">Workflow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-view-tanpa-pca">Table View Tanpa PCA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-view-dengan-pca">Table View Dengan PCA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-k-means-tanpa-pca">Hasil K-Means Tanpa PCA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-k-means-dengan-pca">Hasil K-Means Dengan PCA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perbandingan-hasil">Perbandingan Hasil</a></li>
 </ul>
             </nav>
         </div>
@@ -381,37 +381,40 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="mata-kuliah-proyek-sains-data">
-<h1>Mata kuliah Proyek Sains Data<a class="headerlink" href="#mata-kuliah-proyek-sains-data" title="Link to this heading">#</a></h1>
-<p>Halo! Selamat datang di Jupyter Book mata kuliah <strong>Proyek Sains Data</strong>.<br />
-Book ini dibuat sebagai media dokumentasi pembelajaran, kumpulan materi, tugas, serta alur penyelesaian proyek sains data end-to-end selama proses perkuliahan berlangsung.</p>
-<section id="identitas-mahasiswa">
-<h2>Identitas Mahasiswa<a class="headerlink" href="#identitas-mahasiswa" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p><strong>Nama:</strong> Baiatur Ridhwan El Habibie</p></li>
-<li><p><strong>NIM:</strong> 240411100156</p></li>
-<li><p><strong>Program Studi:</strong> Teknik Informatika</p></li>
-<li><p><strong>Universitas:</strong> Universitas Trunojoyo Madura</p></li>
-</ul>
+  <section class="tex2jax_ignore mathjax_ignore" id="analisis-k-means-menggunakan-pca-dan-tanpa-pca">
+<h1>Analisis K-Means Menggunakan PCA dan Tanpa PCA<a class="headerlink" href="#analisis-k-means-menggunakan-pca-dan-tanpa-pca" title="Link to this heading">#</a></h1>
+<p>Tugas pada pertemuan ini dilakukan untuk membandingkan hasil pengelompokan menggunakan metode K-Means tanpa PCA dan K-Means dengan PCA.</p>
+<p>PCA (Principal Component Analysis) digunakan untuk menyederhanakan data dengan mengurangi jumlah variabel menjadi beberapa komponen utama tanpa menghilangkan informasi penting dari data.</p>
+<section id="workflow">
+<h2>Workflow<a class="headerlink" href="#workflow" title="Link to this heading">#</a></h2>
+<p>Workflow yang digunakan terdiri dari beberapa proses, yaitu Excel Reader sebagai sumber data, K-Means untuk proses clustering tanpa PCA, Table View untuk melihat data, PCA untuk melakukan reduksi dimensi, serta K-Means dan Table View untuk menganalisis hasil setelah proses PCA.</p>
+<p><img alt="image.png" src="../_images/07817958-e3ac-4777-86ea-58b62bc0480c.png" /></p>
 </section>
-<section id="tentang-book-ini">
-<h2>Tentang Book Ini<a class="headerlink" href="#tentang-book-ini" title="Link to this heading">#</a></h2>
-<p>Jupyter Book ini berisi berbagai pembahasan mengenai alur kerja proyek sains data, mulai dari perumusan masalah, pengumpulan dan eksplorasi data (<em>Exploratory Data Analysis</em>), pemodelan pembelajaran mesin, hingga evaluasi dan penyajian hasil analisis.</p>
-<p>Seluruh isi dalam book ini disusun sebagai bentuk dokumentasi pembelajaran sekaligus penerapan langsung kerangka kerja Data Science untuk menyelesaikan permasalahan nyata menggunakan tools dan dataset yang relevan.</p>
-<blockquote>
-<div><p>“Data itu bukan cuma sekadar angka di spreadsheet.
-Dia punya cerita, pola, dan solusi yang tersembunyi—tugas kita adalah menggali dan menerjemahkannya jadi tindakan nyata.”</p>
-</div></blockquote>
-<p>It does not go in-depth into any particular topic - check out <a class="reference external" href="https://jupyterbook.org">the Jupyter Book documentation</a> for more information.</p>
-<p>Check out the content pages bundled with this sample book to see more.</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="md/pertemuan_1.html">Analisis Kualitas Udara Kota Surabaya Menggunakan Data Sentinel-5P</a></li>
-<li class="toctree-l1"><a class="reference internal" href="md/pertemuan_2.html">Tugas Pertemuan 2: Pengolahan dan Analisis Data Kualitas Udara Surabaya Menggunakan PostgreSQL dan KNIME</a></li>
-<li class="toctree-l1"><a class="reference internal" href="md/pertemuan_3.html">Analisis Time Series Empat Polutan Tingkat Kecamatan di Kota Surabaya Menggunakan TSFEL dan K-Means</a></li>
-<li class="toctree-l1"><a class="reference internal" href="md/pertemuan_4.html">Analisis K-Means Menggunakan PCA dan Tanpa PCA</a></li>
-</ul>
-</div>
+<section id="table-view-tanpa-pca">
+<h2>Table View Tanpa PCA<a class="headerlink" href="#table-view-tanpa-pca" title="Link to this heading">#</a></h2>
+<p>Pada tahap ini, data dari Excel Reader langsung diteruskan ke Table View untuk melihat struktur data sebelum dilakukan proses PCA. Data juga digunakan sebagai input untuk K-Means tanpa melalui proses reduksi dimensi.</p>
+<p><img alt="image.png" src="../_images/9c3f12f4-20a0-4572-a0df-1734f764e1cb.png" /></p>
+</section>
+<section id="table-view-dengan-pca">
+<h2>Table View Dengan PCA<a class="headerlink" href="#table-view-dengan-pca" title="Link to this heading">#</a></h2>
+<p>Pada tahap berikutnya, data dari Excel Reader diproses menggunakan PCA untuk melakukan reduksi dimensi. Hasil dari PCA kemudian diteruskan ke Table View untuk melihat data setelah dilakukan reduksi dimensi.</p>
+<p>Pada hasil ini, jumlah variabel menjadi lebih sedikit dibandingkan data awal karena fitur-fitur asli direpresentasikan dalam bentuk komponen utama PCA.</p>
+<p><img alt="image.png" src="../_images/d550e8d5-980b-4818-baed-05a65f1d23f7.png" /></p>
+</section>
+<section id="hasil-k-means-tanpa-pca">
+<h2>Hasil K-Means Tanpa PCA<a class="headerlink" href="#hasil-k-means-tanpa-pca" title="Link to this heading">#</a></h2>
+<p>Pada tahap ini, K-Means digunakan secara langsung pada data asli tanpa melalui proses PCA. Hasil pengelompokan digunakan untuk melihat cluster yang terbentuk berdasarkan seluruh fitur yang tersedia pada data.</p>
+<p><img alt="image.png" src="../_images/39ec2156-cdc0-4554-8790-8293fe133ffd.png" /></p>
+</section>
+<section id="hasil-k-means-dengan-pca">
+<h2>Hasil K-Means Dengan PCA<a class="headerlink" href="#hasil-k-means-dengan-pca" title="Link to this heading">#</a></h2>
+<p>Pada tahap ini, K-Means digunakan pada data yang telah melalui proses reduksi dimensi menggunakan PCA. Hasil clustering kemudian dibandingkan dengan hasil K-Means tanpa PCA untuk melihat perbedaan pengelompokan setelah jumlah variabel direduksi.</p>
+<p><img alt="image.png" src="../_images/996330d2-0d99-49b0-950d-6765661e2d30.png" /></p>
+</section>
+<section id="perbandingan-hasil">
+<h2>Perbandingan Hasil<a class="headerlink" href="#perbandingan-hasil" title="Link to this heading">#</a></h2>
+<p>Perbandingan dilakukan antara hasil K-Means tanpa PCA dan hasil K-Means dengan PCA. K-Means tanpa PCA menggunakan fitur asli secara langsung, sedangkan K-Means dengan PCA menggunakan komponen utama hasil reduksi dimensi.</p>
+<p>Perbandingan kedua hasil tersebut digunakan untuk melihat pengaruh penggunaan PCA terhadap proses pengelompokan data.</p>
 </section>
 </section>
 
@@ -428,7 +431,7 @@ Dia punya cerita, pola, dan solusi yang tersembunyi—tugas kita adalah menggali
         },
         kernelOptions: {
             name: "python3",
-            path: "./."
+            path: "./md"
         },
         predefinedOutput: true
     }
@@ -445,14 +448,14 @@ Dia punya cerita, pola, dan solusi yang tersembunyi—tugas kita adalah menggali
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="right-next"
-       href="md/pertemuan_1.html"
-       title="next page">
+    <a class="left-prev"
+       href="pertemuan_3.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Analisis Kualitas Udara Kota Surabaya Menggunakan Data Sentinel-5P</p>
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Analisis Time Series Empat Polutan Tingkat Kecamatan di Kota Surabaya Menggunakan TSFEL dan K-Means</p>
       </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -472,8 +475,12 @@ Dia punya cerita, pola, dan solusi yang tersembunyi—tugas kita adalah menggali
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#identitas-mahasiswa">Identitas Mahasiswa</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tentang-book-ini">Tentang Book Ini</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow">Workflow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-view-tanpa-pca">Table View Tanpa PCA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-view-dengan-pca">Table View Dengan PCA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-k-means-tanpa-pca">Hasil K-Means Tanpa PCA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-k-means-dengan-pca">Hasil K-Means Dengan PCA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perbandingan-hasil">Perbandingan Hasil</a></li>
 </ul>
   </nav></div>
 
@@ -522,8 +529,8 @@ By Roti18
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>
