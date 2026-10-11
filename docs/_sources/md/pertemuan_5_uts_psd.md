@@ -2479,12 +2479,15 @@ m
 
 
 
-<div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe
-  src="../data/processed/Peta_Hasil_Klasifikasi_RF.html.html"
+<div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span>
+<iframe
+  src="../data/processed/Peta_Hasil_Klasifikasi_RF.html"
   width="100%"
   height="650"
-  style="border: none;">
-</iframe></div></div>
+  style="border: none; border-radius: 8px;"
+  loading="lazy">
+</iframe>
+</div></div>
 
 
 
