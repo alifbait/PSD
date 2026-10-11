@@ -1,4 +1,4 @@
-# Klasifikasi Tutupan Lahan Menggunakan Citra Sentinel-2 di Provinsi Jawa Timur
+# Klasifikasi Tutupan Lahan Menggunakan Citra Sentinel-2 di Banyuwangi
 
 ## 1. Business Understanding
 
