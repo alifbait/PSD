@@ -3200,7 +3200,7 @@ Teknologi yang digunakan dalam implementasi aplikasi meliputi Streamlit untuk an
 
 Aplikasi dipublikasikan menggunakan Streamlit Community Cloud dengan kode aplikasi dan dependensi yang disimpan dalam repository GitHub.
 
-**URL aplikasi:** [Masukkan URL Streamlit setelah deployment berhasil]
+**URL aplikasi:** [https://alifproyeksainsdata.streamlit.app/]
 
 ### 6.4 Dokumentasi Hasil Deployment
 
