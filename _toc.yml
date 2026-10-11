@@ -10,4 +10,4 @@ chapters:
 - file: md/pertemuan_4
   title: "Analisis K-Means Menggunakan PCA dan Tanpa PCA"
 - file: md/pertemuan_5_uts_psd
-  title: "Klasifikasi Tutupan Lahan Menggunakan Citra Sentinel-2 di Banyuwangi"
+  title: "Klasifikasi Tutupan Lahan Menggunakan Citra Sentinel-2 di Provinsi Jawa Timur"
