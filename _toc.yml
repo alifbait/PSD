@@ -9,5 +9,5 @@ chapters:
   title: "Analisis Time Series Empat Polutan Tingkat Kecamatan di Kota Surabaya Menggunakan TSFEL dan K-Means"
 - file: md/pertemuan_4
   title: "Analisis K-Means Menggunakan PCA dan Tanpa PCA"
-- file: md/pertemuan_5_uts_psd
+- file: md/pertemuan_5_psd
   title: "Klasifikasi Tutupan Lahan Menggunakan Citra Sentinel-2 di Provinsi Jawa Timur"
