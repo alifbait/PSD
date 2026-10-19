@@ -2,6 +2,7 @@
 from pathlib import Path
 import io
 import base64
+import json
 
 import numpy as np
 import pandas as pd
@@ -28,6 +29,7 @@ st.set_page_config(
 
 BASE_DIR = Path(__file__).resolve().parent
 RASTER_PATH = BASE_DIR / "hasil_klasifikasi_jawa_timur_rf.tif"
+GEOJSON_PATH = BASE_DIR / "training_landcover_fixed.geojson"
 
 NODATA_CODE = 0
 MAX_MAP_SIZE = 1400
@@ -204,16 +206,11 @@ def build_map(overlays, bounds):
     ]
 
     fmap = folium.Map(
-        location=center,
-        zoom_start=7,
-        tiles=None,
-        control_scale=True,
+        location=center, zoom_start=7, tiles=None, control_scale=True
     )
 
     folium.TileLayer(
-        tiles="OpenStreetMap",
-        name="Peta Jalan",
-        control=True,
+        tiles="OpenStreetMap", name="Peta Jalan", control=True
     ).add_to(fmap)
 
     folium.TileLayer(
@@ -221,30 +218,101 @@ def build_map(overlays, bounds):
             "https://server.arcgisonline.com/ArcGIS/rest/services/"
             "World_Imagery/MapServer/tile/{z}/{y}/{x}"
         ),
-        attr="Tiles © Esri",
-        name="Citra Satelit",
-        control=True,
+        attr="Tiles © Esri", name="Citra Satelit", control=True,
     ).add_to(fmap)
 
+    # Raster klasifikasi per kelas.
     for code, item in overlays.items():
         folium.raster_layers.ImageOverlay(
-            image=item["uri"],
-            bounds=bounds,
-            opacity=0.85,
+            image=item["uri"], bounds=bounds, opacity=0.85,
             name=f'{code} - {item["label"]}',
-            overlay=True,
-            control=True,
-            show=True,
-            interactive=True,
+            overlay=True, control=True, show=True, interactive=True,
         ).add_to(fmap)
+
+    # Poligon digitasi manual.
+    if GEOJSON_PATH.exists():
+        try:
+            with open(GEOJSON_PATH, "r", encoding="utf-8-sig") as f:
+                geojson_data = json.load(f)
+
+            def get_class_label(feature):
+                props = feature.get("properties") or {}
+                for key in (
+                    "class_name", "class", "kelas", "kelas_lahan",
+                    "landcover", "land_cover", "label", "jenis"
+                ):
+                    value = props.get(key)
+                    if value is not None and str(value).strip():
+                        return str(value).strip().lower()
+                return ""
+
+            def polygon_style(feature):
+                label = get_class_label(feature)
+                if "built" in label or "build" in label or "terbangun" in label:
+                    color = "#e41a1c"
+                elif "farm" in label or "agri" in label or "pertanian" in label:
+                    color = "#e6ab02"
+                elif "water" in label or "air" in label or "sea" in label or "laut" in label:
+                    color = "#1f78b4"
+                elif "mangrove" in label:
+                    color = "#00a884"
+                elif "forest" in label or "hutan" in label:
+                    color = "#228b22"
+                else:
+                    color = "#ffffff"
+
+                return {
+                    "color": color, "weight": 2, "opacity": 0.95,
+                    "fill": False, "fillOpacity": 0,
+                }
+
+            features = geojson_data.get("features", [])
+            all_fields = set()
+            for feature in features:
+                all_fields.update((feature.get("properties") or {}).keys())
+
+            preferred_fields = [
+                "class_name", "class", "kelas", "kelas_lahan",
+                "landcover", "land_cover", "label", "jenis",
+                "sample_id", "id"
+            ]
+            tooltip_fields = [
+                field for field in preferred_fields if field in all_fields
+            ][:4]
+
+            tooltip = None
+            if tooltip_fields:
+                tooltip = folium.GeoJsonTooltip(
+                    fields=tooltip_fields,
+                    aliases=[
+                        field.replace("_", " ").title()
+                        for field in tooltip_fields
+                    ],
+                    sticky=True,
+                )
+
+            folium.GeoJson(
+                geojson_data,
+                name="Poligon Digitasi Manual",
+                style_function=polygon_style,
+                tooltip=tooltip,
+                show=True,
+            ).add_to(fmap)
+
+        except Exception as exc:
+            st.warning(f"GeoJSON ditemukan, tetapi gagal dibaca: {exc}")
+    else:
+        st.info(
+            "Layer poligon belum ditampilkan. Letakkan "
+            "'training_landcover_fixed.geojson' di folder yang sama dengan app.py."
+        )
 
     legend_items = "".join(
         f"""
-        <div style="margin:5px 0;">
-            <span style="
-                display:inline-block;width:14px;height:14px;
-                background:{item['color']};margin-right:7px;
-                border-radius:3px;"></span>
+        <div style="margin:5px 0;color:#222;">
+            <span style="display:inline-block;width:14px;height:14px;
+                background:{item['color']};margin-right:7px;border-radius:3px;">
+            </span>
             <b>{item['name']}</b> ({item['label']})
         </div>
         """
@@ -252,17 +320,16 @@ def build_map(overlays, bounds):
     )
 
     legend_html = f"""
-    <div style="
-        position:fixed;bottom:25px;left:25px;z-index:9999;
-        background:rgba(255,255,255,0.95);
-        border:1px solid #777;border-radius:8px;
-        padding:12px 15px;font-family:Arial,sans-serif;
-        font-size:12px;box-shadow:0 2px 8px #777;">
-        <b style="font-size:14px;">Legenda Tutupan Lahan</b>
-        <hr style="margin:7px 0;">
+    <div style="position:fixed;bottom:25px;left:25px;z-index:9999;
+        background:rgba(255,255,255,0.97);color:#222;
+        border:1px solid #777;border-radius:8px;padding:12px 15px;
+        font-family:Arial,sans-serif;font-size:12px;
+        box-shadow:0 2px 8px rgba(0,0,0,0.35);min-width:220px;">
+        <b style="font-size:14px;color:#222;">Legenda Tutupan Lahan</b>
+        <hr style="margin:7px 0;border-top:1px solid #ccc;">
         {legend_items}
-        <div style="margin-top:6px;color:#666;">
-            Transparan = NoData
+        <div style="margin-top:6px;color:#555;">
+            Garis poligon = digitasi manual<br>Transparan = NoData
         </div>
     </div>
     """
@@ -270,7 +337,6 @@ def build_map(overlays, bounds):
     fmap.get_root().html.add_child(folium.Element(legend_html))
     folium.LayerControl(collapsed=False).add_to(fmap)
     fmap.fit_bounds(bounds)
-
     return fmap
 
 
