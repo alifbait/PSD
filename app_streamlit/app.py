@@ -28,7 +28,10 @@ st.set_page_config(
 )
 
 BASE_DIR = Path(__file__).resolve().parent
-RASTER_PATH = BASE_DIR / "hasil_klasifikasi_jawa_timur_rf.tif"
+RASTER_OPTIONS = {
+    "Jawa Timur": BASE_DIR / "hasil_klasifikasi_jawa_timur_rf.tif",
+    "Banyuwangi": BASE_DIR / "hasil_klasifikasi_rf.tif",
+}
 GEOJSON_PATH = BASE_DIR / "training_landcover_fixed.geojson"
 
 NODATA_CODE = 0
@@ -45,25 +48,34 @@ CLASS_INFO = {
 
 
 # ============================================================
-# 2. HEADER DAN VALIDASI FILE
+# 2. PILIH WILAYAH DAN VALIDASI FILE
 # ============================================================
-st.title("🛰️ Klasifikasi Tutupan Lahan Jawa Timur")
+st.title("🛰️ Klasifikasi Tutupan Lahan")
 st.markdown(
     """
     Peta tutupan lahan hasil klasifikasi **Random Forest**
-    menggunakan citra Sentinel-2. Hasil klasifikasi telah
-    diproses sebelumnya dan ditampilkan langsung tanpa
-    unggah citra atau prediksi ulang.
+    dari citra Sentinel-2. Pilih wilayah untuk melihat raster
+    yang sudah diproses sebelumnya, tanpa unggah atau prediksi ulang.
     """
 )
 
+wilayah = st.selectbox(
+    "Pilih wilayah klasifikasi",
+    options=list(RASTER_OPTIONS.keys()),
+    index=0,
+    key="pilih_wilayah_klasifikasi",
+)
+RASTER_PATH = RASTER_OPTIONS[wilayah]
+
 if not RASTER_PATH.exists():
-    st.error(f"Raster hasil klasifikasi tidak ditemukan: {RASTER_PATH}")
+    st.error(f"Raster untuk wilayah {wilayah} tidak ditemukan:")
+    st.code(str(RASTER_PATH))
     st.info(
-        "Letakkan hasil_klasifikasi_jawa_timur_rf.tif "
-        "di folder yang sama dengan app.py."
+        "Pastikan file raster dengan nama yang sesuai berada di folder yang sama dengan app.py."
     )
     st.stop()
+
+st.caption(f"Wilayah aktif: {wilayah} | File: {RASTER_PATH.name}")
 
 
 # ============================================================
@@ -199,7 +211,7 @@ def prepare_map_raster(raster_path, max_size=1400):
 # ============================================================
 # 5. MEMBANGUN PETA FOLIUM
 # ============================================================
-def build_map(overlays, bounds):
+def build_map(overlays, bounds, show_polygons=False):
     center = [
         (bounds[0][0] + bounds[1][0]) / 2,
         (bounds[0][1] + bounds[1][1]) / 2,
@@ -229,8 +241,8 @@ def build_map(overlays, bounds):
             overlay=True, control=True, show=True, interactive=True,
         ).add_to(fmap)
 
-    # Poligon digitasi manual.
-    if GEOJSON_PATH.exists():
+    # Poligon digitasi manual: ditampilkan untuk Banyuwangi saja.
+    if show_polygons and GEOJSON_PATH.exists():
         try:
             with open(GEOJSON_PATH, "r", encoding="utf-8-sig") as f:
                 geojson_data = json.load(f)
@@ -301,10 +313,9 @@ def build_map(overlays, bounds):
 
         except Exception as exc:
             st.warning(f"GeoJSON ditemukan, tetapi gagal dibaca: {exc}")
-    else:
-        st.info(
-            "Layer poligon belum ditampilkan. Letakkan "
-            "'training_landcover_fixed.geojson' di folder yang sama dengan app.py."
+    elif show_polygons and not GEOJSON_PATH.exists():
+        st.warning(
+            "File training_landcover_fixed.geojson tidak ditemukan di folder app.py."
         )
 
     legend_items = "".join(
@@ -363,19 +374,19 @@ try:
         f"Piksel NoData: {info['nodata']:,}"
     )
 
-    st.subheader("Peta Interaktif Tutupan Lahan")
+    st.subheader(f"Peta Interaktif Tutupan Lahan: {wilayah}")
     overlays, bounds, map_width, map_height = prepare_map_raster(
         str(RASTER_PATH), MAX_MAP_SIZE
     )
 
-    fmap = build_map(overlays, bounds)
+    fmap = build_map(overlays, bounds, show_polygons=(wilayah == "Banyuwangi"))
 
     st_folium(
         fmap,
         use_container_width=True,
         height=650,
         returned_objects=[],
-        key="peta_tutupan_lahan_jawa_timur",
+        key=f"peta_tutupan_lahan_{wilayah.lower().replace(' ', '_')}",
     )
 
     st.caption(
@@ -384,7 +395,7 @@ try:
         "atau mengganti basemap."
     )
 
-    st.subheader("Statistik Tutupan Lahan")
+    st.subheader(f"Statistik Tutupan Lahan: {wilayah}")
     st.dataframe(
         info["stats"],
         use_container_width=True,
@@ -402,7 +413,7 @@ try:
     st.download_button(
         "Unduh Statistik CSV",
         data=csv_bytes,
-        file_name="statistik_tutupan_lahan_jawa_timur.csv",
+        file_name=f"statistik_tutupan_lahan_{wilayah.lower().replace(' ', '_')}.csv",
         mime="text/csv",
     )
 
